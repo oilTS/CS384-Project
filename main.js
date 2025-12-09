@@ -160,11 +160,13 @@ function validateQuizAnswers(articleLetter, containerId) {
 const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzQ8wIg0MK3cXxx3plRQGdevD9mBYhJibg7QYtsy58go4yY1CS2UlEoqMSLcDwBqhVb/exec"; // เปลี่ยนเป็น URL /exec จริงของคุณ
 
 function sendToSheet(data) {
-    // ใช้ mode: 'no-cors' เพื่อหลีกเลี่ยง CORS error
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzQ8wIg0MK3cXxx3plRQGdevD9mBYhJibg7QYtsy58go4yY1CS2UlEoqMSLcDwBqhVb/exec"; // URL ของคุณ
+    
+    // *** [การแก้ไข] ลบ Headers property ออกไปทั้งหมด ***
     fetch(GOOGLE_SCRIPT_URL, {
         method: "POST",
         mode: "no-cors", 
-        headers: { "Content-Type": "application/json" },
+        // ไม่ต้องมีบรรทัด headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
     })
     .then(res => {

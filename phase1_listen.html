@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>ฟังเสียง — Phase 1</title>
+<link rel="stylesheet" href="style.css">
+<script src="main.js"></script>
+</head>
+
+<body>
+
+<h2>ฟังบทความเสียง — Phase 1</h2>
+
+<p class="notice">เสียงจะเล่นได้เพียงครั้งเดียว ไม่มีหยุด ไม่มีกรอ</p>
+
+<!-- เครื่องเล่นเสียง -->
+<audio id="audioPlayer" preload="auto">
+    <source id="audioSrc" src="">
+</audio>
+
+<button id="playBtn">▶ เริ่มฟัง</button>
+
+<p id="msg" class="error"></p>
+
+<script>
+(function(){
+
+    const set = getParam("set");
+    const letter = getParam("audio");   // ได้ค่า "A" หรือ "B"
+
+    const audio = document.getElementById("audioPlayer");
+    const src = document.getElementById("audioSrc");
+
+    // ตรวจสอบว่ามี letter หรือไม่
+    if (!letter) {
+        document.getElementById("msg").textContent = "ไม่พบพารามิเตอร์ audio=A หรือ B";
+        return;
+    }
+
+    // ใส่ path ไฟล์เสียงถูกต้อง
+    const filePath = `audio/${letter}.mp3`;
+    src.src = filePath;
+    audio.load();   // โหลดเสียง
+
+    // เมื่อกดปุ่มเริ่มฟัง
+    document.getElementById("playBtn").onclick = () => {
+        audio.play()
+        .then(() => {
+            document.getElementById("msg").textContent = "";
+        })
+        .catch(err => {
+            document.getElementById("msg").textContent =
+                "ไม่สามารถเล่นเสียงได้ กรุณาตรวจสอบไฟล์: " + filePath;
+        });
+    };
+
+    // เมื่อเล่นจบ → ไปหน้า Quiz
+    audio.onended = () => {
+        window.location.href = `phase1_quiz.html?set=${set}&article=${letter}`;
+    };
+
+})();
+</script>
+
+</body>
+</html>

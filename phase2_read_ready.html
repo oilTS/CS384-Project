@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="th">
+<head><meta charset="utf-8" /><title>เตรียมอ่าน — Phase 2</title>
+<link rel="stylesheet" href="style.css" />
+<script src="main.js" defer></script>
+</head>
+<body>
+  <h2>เตรียมพร้อม: การอ่าน (Phase 2)</h2>
+  <div class="notice">
+    <p>คำแนะนำ: อ่านบทความให้ครบในเวลา 3 นาที หรือกด 'อ่านเรียบร้อยแล้ว' เพื่อไปยังแบบทดสอบ</p>
+  </div>
+
+  <div class="center">
+    <button id="go">เริ่มอ่าน (Phase2)</button>
+  </div>
+
+<script>
+document.getElementById("go").addEventListener("click", ()=>{
+  const set = window.Experiment.getParam("set");
+  // second mapping: find which article letter to read in phase2
+  // if CONDITION[set].first was readA/readB, second is listenB/listenA.
+  // For phase2 read, check keys: if first was listenA/listenB then second read is readB/readA
+  const cond = window.Experiment.CONDITION[set];
+  // If cond.first startsWith 'listen' then cond.second will be 'readX', else cond.second is 'listenX' so we need to extract read letter
+  let letter = null;
+  // find which read letter is not used in phase1
+  if (cond.first.startsWith("listen")) {
+    // cond.first is listenA/listenB; cond.second should be readX stored as readSecond-like - but mapping used earlier: second may be 'readB' etc.
+    // We can deduce: for S3 cond.first=listenA, cond.second=readB -> read B
+    // So find cond.second if present:
+    const sec = cond.second || "";
+    if (sec.startsWith("read")) {
+      letter = sec.endsWith("A") ? "A" : "B";
+    } else {
+      // fallback: pick the opposite of first
+      letter = cond.first.endsWith("A") ? "B" : "A";
+    }
+  } else {
+    // For cases where first was read..., second is listen..., so phase2 read should not happen here
+    letter = cond.second && cond.second.startsWith("read") ? (cond.second.endsWith("A") ? "A" : "B") : (cond.first.endsWith("A") ? "B" : "A");
+  }
+
+  window.location.href = `phase2_read.html?set=${set}&article=${letter}`;
+});
+</script>
+</body>
+</html>

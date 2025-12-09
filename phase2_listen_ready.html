@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>เตรียมพร้อมสำหรับการฟัง - Phase 2</title>
+<link rel="stylesheet" href="style.css">
+<script src="main.js"></script>
+</head>
+
+<body>
+<h2>เตรียมพร้อมสำหรับการฟังเสียง (Phase 2)</h2>
+
+<p>ก่อนเริ่มการฟัง กรุณาทดสอบเสียงก่อน</p>
+
+<button id="testBtn">🔊 ทดสอบเสียง</button>
+<button id="goBtn" disabled>ฉันได้ยินแล้ว</button>
+
+<p id="msg" class="error"></p>
+
+<script>
+let tested = false;
+
+document.getElementById("testBtn").onclick = () => {
+    const audio = new Audio("audio/test.mp3");
+    audio.play();
+
+    audio.onplay = () => {
+        tested = true;
+        document.getElementById("goBtn").disabled = false;
+        document.getElementById("msg").textContent = "";
+    };
+};
+
+document.getElementById("goBtn").onclick = () => {
+    if (!tested) {
+        document.getElementById("msg").textContent = "กรุณาทดสอบเสียงก่อน";
+        return;
+    }
+
+    const set = getParam("set");
+    const letter = getParam("audio");
+
+    window.location = `phase2_listen.html?set=${set}&audio=${letter}`;
+};
+</script>
+
+</body>
+</html>

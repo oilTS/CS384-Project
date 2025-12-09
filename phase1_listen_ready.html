@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>เตรียมพร้อมสำหรับการฟัง</title>
+<link rel="stylesheet" href="style.css">
+<script src="main.js"></script>
+</head>
+
+<body>
+<h2>เตรียมพร้อมสำหรับการฟังเสียง</h2>
+
+<p>ก่อนเริ่มการฟัง กรุณาทดสอบเสียงก่อน</p>
+<p class="notice">เสียงจะเล่นได้เพียงครั้งเดียว ไม่มีหยุด ไม่มีกรอ</p>
+
+<button id="testBtn">🔊 ทดสอบเสียง</button>
+<button id="goBtn" disabled>ฉันได้ยินแล้ว</button>
+
+<p id="msg" class="error"></p>
+
+<script>
+let tested = false;
+
+// เมื่อกด "ทดสอบเสียง"
+document.getElementById("testBtn").onclick = () => {
+    const letter = getParam("audio") || getParam("article") || "A";
+
+    const audio = new Audio(`audio/test.mp3`);
+    audio.play();
+
+    audio.onplay = () => {
+        tested = true;
+        document.getElementById("goBtn").disabled = false;
+        document.getElementById("msg").textContent = "";
+    };
+};
+
+// เมื่อกด "ฉันได้ยินแล้ว"
+document.getElementById("goBtn").onclick = () => {
+    if (!tested) {
+        document.getElementById("msg").textContent = "กรุณาทดสอบเสียงก่อน";
+        return;
+    }
+
+    const set = getParam("set");
+    const letter = getParam("audio");
+
+    // ไปหน้าเล่นเสียงจริง
+    window.location = `phase1_listen.html?set=${set}&audio=${letter}`;
+};
+</script>
+
+</body>
+</html>

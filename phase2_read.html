@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>อ่านบทความ (Phase 2)</title>
+<link rel="stylesheet" href="style.css">
+<script src="main.js"></script>
+</head>
+
+<body>
+<h2>อ่านบทความ — Phase 2</h2>
+
+<div id="timer" class="notice">เวลา: 180 วินาที</div>
+
+<div id="articleBox" class="article-box">กำลังโหลดบทความ...</div>
+
+<button id="doneBtn">อ่านเรียบร้อยแล้ว</button>
+
+<script>
+(async () => {
+    const set = getParam("set");
+    const articleLetter = getParam("article");
+
+    const html = await loadArticle(articleLetter);
+    document.getElementById("articleBox").innerHTML = html;
+
+    let t = 180;
+    const timerEl = document.getElementById("timer");
+
+    const interval = setInterval(() => {
+        t--;
+        timerEl.textContent = `เวลา: ${t} วินาที`;
+        if (t <= 0) {
+            clearInterval(interval);
+            window.location = `phase2_quiz.html?set=${set}&article=${articleLetter}`;
+        }
+    }, 1000);
+
+    document.getElementById("doneBtn").onclick = () => {
+        clearInterval(interval);
+        window.location = `phase2_quiz.html?set=${set}&article=${articleLetter}`;
+    };
+})();
+</script>
+
+</body>
+</html>

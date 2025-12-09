@@ -1,62 +1,47 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-    <meta charset="UTF-8">
-    <title>การทดลองเปรียบเทียบความเข้าใจ: อ่าน vs. ฟัง</title>
-    <link rel="stylesheet" href="style.css"> 
+<meta charset="utf-8" />
+<title>CS384 — ใส่รหัสชุดทดสอบ</title>
+<link rel="stylesheet" href="style.css" />
+<script src="main.js" defer></script>
 </head>
 <body>
+  <h1>CS384 — เริ่มการทดลอง</h1>
 
-<div class="container">
-    <div id="welcome-section" class="section">
-        <h1>ยินดีต้อนรับสู่การทดลอง</h1>
-        <p>การทดลองนี้แบ่งออกเป็น 2 ช่วง</p>
-        <ul>
-            <li>**โหมดอ่าน:** มีเวลาจำกัด **4 นาที 30 วินาที** เนื้อหาจะปรากฏเมื่อกดเริ่ม</li>
-            <li>**โหมดฟัง:** เทปจะเล่นได้ **เพียงครั้งเดียว** ต้องฟังจนจบจึงจะทำแบบทดสอบได้</li>
-        </ul>
-        <p>โปรดเตรียมรหัสลำดับการทดลอง (S1, S2, S3, หรือ S4) ที่ได้รับมอบหมาย</p>
-        <button onclick="startExperiment()">เริ่มการทดลอง</button>
-    </div>
+  <p>กรุณากรอกรหัสชุดทดสอบของคุณ (S1, S2, S3, S4)</p>
+  <div class="form-row">
+    <input id="codeInput" placeholder="เช่น S1" />
+    <button id="startBtn">เริ่ม</button>
+  </div>
+  <div id="codeError" class="error" style="display:none"></div>
 
-    <div id="experiment-area" class="hidden">
-        <h2 id="phase-title"></h2>
-        <div id="timer-display" class="timer-box hidden"></div> 
-        
-        <div id="media-area">
-            
-            <button id="check-sound-button" onclick="listeningCheckSound()" class="hidden">
-                🔊 คลิกเพื่อเช็คเสียงหูฟัง
-            </button> 
+<script>
+document.getElementById("startBtn").addEventListener("click", ()=>{
+  const code = document.getElementById("codeInput").value.trim().toUpperCase();
+  const err = document.getElementById("codeError");
+  err.style.display = "none";
+  if (!["S1","S2","S3","S4"].includes(code)) {
+    err.textContent = "รหัสไม่ถูกต้อง — กรุณากรอก S1, S2, S3 หรือ S4";
+    err.style.display = "block";
+    return;
+  }
 
-            <button id="start-media-button" onclick="startMedia()">
-                เริ่มอ่าน/ฟัง (คลิกเพื่อดำเนินการต่อ)
-            </button> 
-            
-            <div id="novel-content" class="hidden"></div>
-            <audio id="audio-book" controls controlslist="nodownload" preload="auto" class="hidden"></audio>
-            <p id="audio-status" class="hidden"></p>
-            
-            <button id="skip-button" onclick="skipToTest()" class="hidden">
-                ข้ามไปทำแบบทดสอบ
-            </button>
-        </div>
-        
-        <div id="test-section" class="hidden section">
-            <h3>แบบทดสอบความเข้าใจ</h3>
-            <p style="color: red; font-weight: bold;">*** กรุณาตอบทุกข้อก่อนกดส่งคำตอบ ***</p>
-            <div id="questions-area"></div>
-            <button onclick="submitTest()">ส่งคำตอบและดำเนินการต่อ</button>
-        </div>
-    </div>
+  // Decide whether Phase1 is read or listen
+  const cond = window.Experiment.CONDITION[code];
+  if (!cond) {
+    err.textContent = "สคริปต์ยังไม่โหลดหรือรหัสผิด";
+    err.style.display = "block";
+    return;
+  }
 
-    <div id="summary-section" class="hidden">
-        <h1>การทดลองเสร็จสมบูรณ์</h1>
-        <p>ขอบคุณที่เข้าร่วมการทดลอง ข้อมูลของคุณได้รับการบันทึกแล้ว</p>
-    </div>
-</div>
-
-<script src="script.js"></script>
-
+  // cond.first indicates e.g. "readA" or "listenB"
+  if (cond.first.startsWith("read")) {
+    window.location.href = `phase1_read_ready.html?set=${code}`;
+  } else {
+    window.location.href = `phase1_listen_ready.html?set=${code}`;
+  }
+});
+</script>
 </body>
 </html>

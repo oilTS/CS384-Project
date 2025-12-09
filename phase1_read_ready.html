@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8" />
+<title>เตรียมอ่าน — Phase 1</title>
+<link rel="stylesheet" href="style.css" />
+<script src="main.js" defer></script>
+</head>
+<body>
+  <h2>เตรียมพร้อม: การอ่าน (Phase 1)</h2>
+
+  <div class="notice">
+    <p>ข้อแนะนำก่อนเริ่ม:</p>
+    <ul>
+      <li>อยู่ในที่เงียบสงบ</li>
+      <li>สวมหูฟัง (ถ้ามี)</li>
+      <li>อ่านข้อความให้ครบภายใน 3 นาที (ผู้ใช้สามารถกด 'อ่านเรียบร้อยแล้ว' เพื่อข้ามได้)</li>
+    </ul>
+  </div>
+
+  <div class="center">
+    <button id="goRead">เริ่มอ่าน</button>
+  </div>
+
+<script>
+document.getElementById("goRead").addEventListener("click", ()=>{
+  const set = window.Experiment.getParam("set");
+  const letter = window.Experiment.CONDITION[set].first.endsWith("A") ? "A" : "B";
+  window.location.href = `phase1_read.html?set=${set}&article=${letter}`;
+});
+</script>
+</body>
+</html>

@@ -157,7 +157,7 @@ function validateQuizAnswers(articleLetter, containerId) {
 // ------------------------------
 // Send data to Google Sheets
 // ------------------------------
-const GOOGLE_SCRIPT_URL = "YOUR_EXEC_URL_HERE"; // เปลี่ยนเป็น URL /exec จริงของคุณ
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxPz21fN--W4AY_5YZgqJcK-0nfNgUCqaC37is5ZaUqX8n08Foz35Ru4yF3KlycHAae/exec"; // เปลี่ยนเป็น URL /exec จริงของคุณ
 
 function sendToSheet(data) {
     // ใช้ mode: 'no-cors' เพื่อหลีกเลี่ยง CORS error

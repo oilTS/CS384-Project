@@ -2,13 +2,13 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<title>แบบทดสอบ</title>
+<title>แบบทดสอบ (Phase 2)</title>
 <link rel="stylesheet" href="style.css">
 <script src="main.js"></script>
 </head>
 
 <body>
-<h2>แบบทดสอบความเข้าใจ</h2>
+<h2>แบบทดสอบความเข้าใจ (Phase 2)</h2>
 
 <div id="quiz-container"></div>
 
@@ -18,53 +18,37 @@
 
 <script>
 (function(){
-    const set = getParam("set");
-    const articleLetter = getParam("article");
-
-    const qs = QUESTIONS[articleLetter];
-    const box = document.getElementById("quiz-container");
-
-    // สร้างฟอร์มแบบทดสอบ
-    qs.forEach((item, index) => {
-        box.innerHTML += `
-            <div class="question-block">
-                <p><b>${index + 1}. ${item.q}</b></p>
-                ${item.choices.map((c, i) => `
-                    <label>
-                        <input type="radio" name="q${index}" value="${i}">
-                        ${c}
-                    </label><br>
-                `).join("")}
-                <hr>
-            </div>
-        `;
-    });
+    const set = window.Experiment.getParam("set");
+    const articleLetter = window.Experiment.getParam("article");
+    const containerId = "quiz-container";
+    
+    window.Experiment.renderQuiz(articleLetter, containerId); 
 
     document.getElementById("submitBtn").onclick = () => {
-        let allAnswered = true;
+        const result = window.Experiment.validateQuizAnswers(articleLetter, containerId);
 
-        qs.forEach((_, i) => {
-            const chk = document.querySelector(`input[name="q${i}"]:checked`);
-            if (!chk) allAnswered = false;
-        });
-
-        if (!allAnswered) {
+        if (!result.ok) {
             document.getElementById("err").textContent = "กรุณาตอบทุกข้อก่อนส่ง";
             return;
         }
 
-        // ไปหน้าถัดไปตาม Phase
-        if (window.location.pathname.includes("phase1")) {
-            if (CONDITION[set].second.startsWith("read")) {
-                const letter = CONDITION[set].second.endsWith("A") ? "A" : "B";
-                window.location = `phase2_read_ready.html?set=${set}&article=${letter}`;
-            } else {
-                const letter = CONDITION[set].second.endsWith("A") ? "A" : "B";
-                window.location = `phase2_listen_ready.html?set=${set}&audio=${letter}`;
-            }
+        // --- บันทึกข้อมูลคะแนน Phase 2 ---
+        const data = window.Experiment.loadExperimentData();
+        const nextCondition = window.Experiment.CONDITION[set].second; // P2
+
+        if (nextCondition.startsWith("read")) {
+            data.read_score_P2 = result.score;
+            data.read_article_P2 = articleLetter; // บันทึกบทความที่อ่าน
         } else {
-            window.location = `final_survey.html?set=${set}`;
+            data.listen_score_P2 = result.score;
+            data.listen_article_P2 = articleLetter; // บันทึกบทความที่ฟัง
         }
+        
+        window.Experiment.saveExperimentData(data);
+        // ---------------------------------
+
+        // จบ Phase 2 เสมอ -> ไปหน้า Survey
+        window.location = `final_survey.html?set=${set}`;
     };
 })();
 </script>

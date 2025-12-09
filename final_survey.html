@@ -59,7 +59,6 @@
 
     <hr>
 
-    <!-- ข้อแสดงความคิดเห็น ไม่บังคับ -->
     <div class="question-block">
         <p><b>5) ข้อเสนอแนะเพิ่มเติม (ไม่บังคับ)</b></p>
         <textarea id="feedback" style="width:100%; height:120px;"></textarea>
@@ -87,7 +86,42 @@ document.getElementById("submitBtn").onclick = () => {
         return;
     }
 
-    // เมื่อกรอกครบ แสดงหน้าขอบคุณ (หรือส่งข้อมูลต่อ)
+    // --- รวบรวมข้อมูลทั้งหมดและส่ง ---
+    const set = window.Experiment.getParam("set");
+    let finalData = window.Experiment.loadExperimentData();
+    
+    // 1. ดึงข้อมูลจาก Survey
+    finalData.q1 = document.querySelector('input[name="q1"]:checked').value;
+    finalData.q2 = document.querySelector('input[name="q2"]:checked').value;
+    finalData.q3 = document.querySelector('input[name="q3"]:checked').value;
+    finalData.q4 = document.querySelector('input[name="q4"]:checked').value;
+    finalData.feedback = document.getElementById("feedback").value;
+
+    // 2. เพิ่ม Set เข้าไปใน Data ที่จะส่ง
+    finalData.set = set; 
+
+    // 3. จัดการ Field ที่ขาดหายไป (ถ้า Set S1 เป็น Read/Listen)
+    // ทำให้แน่ใจว่าส่งครบทุก Field ตาม Apps Script
+    
+    // Field ที่อาจจะว่างถ้าไม่ได้ทดลอง (เช่น S1 ไม่ทำ Read P2)
+    finalData.read_time_P2 = finalData.read_time_P2 || null; 
+    finalData.read_score_P2 = finalData.read_score_P2 || null;
+    finalData.listen_time_P2 = finalData.listen_time_P2 || null;
+    finalData.listen_score_P2 = finalData.listen_score_P2 || null;
+    
+    // Field P1 (สำหรับ Set S3/S4 ที่เริ่มด้วย Listen)
+    finalData.read_time = finalData.read_time || null;
+    finalData.read_score = finalData.read_score || null;
+    finalData.listen_time = finalData.listen_time || null;
+    finalData.listen_score = finalData.listen_score || null;
+
+    // 4. ส่งข้อมูลไป Google Sheets
+    window.Experiment.sendToSheet(finalData);
+
+    // 5. ล้างข้อมูล Local Storage เมื่อส่งเสร็จ
+    window.Experiment.clearExperimentData();
+    // -------------------------------------
+
     document.body.innerHTML = `
         <h2 style="color:green;">ส่งข้อมูลเรียบร้อย ขอบคุณค่ะ</h2>
     `;

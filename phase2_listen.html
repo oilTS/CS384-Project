@@ -13,7 +13,6 @@
 
 <p class="notice">เสียงจะเล่นได้เพียงครั้งเดียว ไม่มีหยุด ไม่มีกรอ</p>
 
-<!-- เครื่องเล่นเสียง -->
 <audio id="audioPlayer" preload="auto">
     <source id="audioSrc" src="">
 </audio>
@@ -25,15 +24,16 @@
 <script>
 (function(){
 
-    const set = getParam("set");
-    const letter = getParam("audio");   // ค่าต้องเป็น A หรือ B
-
+    const set = window.Experiment.getParam("set");
+    const letter = window.Experiment.getParam("audio");
     const audio = document.getElementById("audioPlayer");
     const src = document.getElementById("audioSrc");
+    const playBtn = document.getElementById("playBtn");
+
+    let startTime; 
 
     if (!letter) {
-        document.getElementById("msg").textContent =
-            "ไม่พบตัวแปร audio=A หรือ B";
+        document.getElementById("msg").textContent = "ไม่พบตัวแปร audio=A หรือ B";
         return;
     }
 
@@ -41,11 +41,13 @@
     src.src = filePath;
     audio.load();
 
-    // เมื่อกดปุ่มเริ่มฟัง
-    document.getElementById("playBtn").onclick = () => {
+    playBtn.onclick = () => {
+        playBtn.disabled = true;
+        startTime = new Date(); 
+        
         audio.play()
         .then(() => {
-            document.getElementById("msg").textContent = "";
+            document.getElementById("msg").textContent = "กำลังเล่นเสียง...";
         })
         .catch(err => {
             document.getElementById("msg").textContent =
@@ -53,8 +55,15 @@
         });
     };
 
-    // เมื่อเสียงจบ → ไปหน้าแบบทดสอบ Phase 2
     audio.onended = () => {
+        const endTime = new Date();
+        const timeSpent = Math.round((endTime - startTime) / 1000); 
+
+        // --- บันทึกเวลาที่ใช้ในการฟัง (ใช้ Key P2) ---
+        const data = window.Experiment.loadExperimentData();
+        data.listen_time_P2 = timeSpent;
+        window.Experiment.saveExperimentData(data);
+
         window.location.href = `phase2_quiz.html?set=${set}&article=${letter}`;
     };
 

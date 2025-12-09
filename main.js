@@ -23,6 +23,24 @@ function showMessage(elId, msg) {
 }
 
 // ------------------------------
+// Data Storage Helpers (UPDATED)
+// ------------------------------
+const DATA_KEY = 'cs384_exp_data';
+
+function loadExperimentData() {
+  const data = localStorage.getItem(DATA_KEY);
+  return data ? JSON.parse(data) : {};
+}
+
+function saveExperimentData(data) {
+  localStorage.setItem(DATA_KEY, JSON.stringify(data));
+}
+
+function clearExperimentData() {
+  localStorage.removeItem(DATA_KEY);
+}
+
+// ------------------------------
 // Mapping S1-S4
 // ------------------------------
 const CONDITION = {
@@ -111,31 +129,29 @@ function renderQuiz(articleLetter, containerId) {
 }
 
 // ------------------------------
-// Validate quiz answers
+// Validate quiz answers & Compute score (UPDATED)
 // ------------------------------
-function validateQuizAnswers(containerId) {
-  const qs = QUESTIONS;
-  const radiosPerQ = 5; // 5 questions
-  let allAnswered = true;
-  const answers = [];
-  for (let i=0;i<5;i++) {
-    const sel = document.querySelector(`#${containerId} input[name="q${i}"]:checked`);
-    if (!sel) { allAnswered = false; break; }
-    answers.push(parseInt(sel.value,10));
-  }
-  return { ok: allAnswered, answers };
-}
-
-// ------------------------------
-// Compute score (optional)
-// ------------------------------
-function computeScore(articleLetter, answers) {
+function validateQuizAnswers(articleLetter, containerId) {
   const qset = QUESTIONS[articleLetter];
   let score = 0;
-  for (let i=0;i<qset.length;i++) {
-    if (answers[i] === qset[i].correct) score++;
+  let allAnswered = true;
+  const answers = [];
+  
+  // NOTE: Assuming 3 questions based on QUESTIONS structure. Adjust loop for 5
+  for (let i = 0; i < qset.length; i++) {
+    const sel = document.querySelector(`#${containerId} input[name="q${i}"]:checked`);
+    
+    if (!sel) { 
+      allAnswered = false; 
+      answers.push(null); 
+    } else {
+      const answerIndex = parseInt(sel.value, 10);
+      answers.push(answerIndex);
+      if (answerIndex === qset[i].correct) score++;
+    }
   }
-  return score;
+  
+  return { ok: allAnswered, score: score, answers: answers };
 }
 
 // ------------------------------
@@ -144,16 +160,17 @@ function computeScore(articleLetter, answers) {
 const GOOGLE_SCRIPT_URL = "YOUR_EXEC_URL_HERE"; // เปลี่ยนเป็น URL /exec จริงของคุณ
 
 function sendToSheet(data) {
+    // ใช้ mode: 'no-cors' เพื่อหลีกเลี่ยง CORS error
     fetch(GOOGLE_SCRIPT_URL, {
         method: "POST",
+        mode: "no-cors", 
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
     })
     .then(res => {
-        if(res.ok) console.log("ส่งข้อมูลสำเร็จ");
-        else console.error("Error status", res.status);
+        console.log("พยายามส่งข้อมูลไป Google Sheets แล้ว...");
     })
-    .catch(err => console.error("เกิดข้อผิดพลาด", err));
+    .catch(err => console.error("เกิดข้อผิดพลาดในการส่งข้อมูล", err));
 }
 
 // ------------------------------
@@ -166,8 +183,10 @@ window.Experiment = {
   CONDITION,
   QUESTIONS,
   renderQuiz,
-  validateQuizAnswers,
-  computeScore,
+  validateQuizAnswers, // Use this for scoring now
   showMessage,
-  sendToSheet
+  sendToSheet,
+  loadExperimentData, 
+  saveExperimentData,
+  clearExperimentData
 };

@@ -18,15 +18,14 @@
 
 <script>
 (async () => {
-    const set = getParam("set");
-    const articleLetter = getParam("article");   // A หรือ B
+    const set = window.Experiment.getParam("set");
+    const articleLetter = window.Experiment.getParam("article");
 
-    // โหลดบทความจริง
-    const html = await loadArticle(articleLetter);
+    const html = await window.Experiment.loadArticle(articleLetter);
     document.getElementById("articleBox").innerHTML = html;
 
-    // จับเวลา 180 วินาที
     let t = 180;
+    const TOTAL_TIME = 180; 
     const timerEl = document.getElementById("timer");
 
     const interval = setInterval(() => {
@@ -35,13 +34,23 @@
 
         if (t <= 0) {
             clearInterval(interval);
+            
+            const data = window.Experiment.loadExperimentData();
+            data.read_time = TOTAL_TIME; 
+            window.Experiment.saveExperimentData(data);
+
             window.location = `phase1_quiz.html?set=${set}&article=${articleLetter}`;
         }
     }, 1000);
 
-    // ปุ่มกดทันทีไปสอบ
     document.getElementById("doneBtn").onclick = () => {
         clearInterval(interval);
+        
+        const timeSpent = TOTAL_TIME - t;
+        const data = window.Experiment.loadExperimentData();
+        data.read_time = timeSpent; 
+        window.Experiment.saveExperimentData(data);
+
         window.location = `phase1_quiz.html?set=${set}&article=${articleLetter}`;
     };
 })();

@@ -18,26 +18,41 @@
 
 <script>
 (async () => {
-    const set = getParam("set");
-    const articleLetter = getParam("article");
+    const set = window.Experiment.getParam("set");
+    const articleLetter = window.Experiment.getParam("article");
 
-    const html = await loadArticle(articleLetter);
+    const html = await window.Experiment.loadArticle(articleLetter);
     document.getElementById("articleBox").innerHTML = html;
 
     let t = 180;
+    const TOTAL_TIME = 180;
     const timerEl = document.getElementById("timer");
 
     const interval = setInterval(() => {
         t--;
         timerEl.textContent = `เวลา: ${t} วินาที`;
+
         if (t <= 0) {
             clearInterval(interval);
+            
+            // --- บันทึกข้อมูลเมื่อหมดเวลา (ใช้ Key P2) ---
+            const data = window.Experiment.loadExperimentData();
+            data.read_time_P2 = TOTAL_TIME; 
+            window.Experiment.saveExperimentData(data);
+
             window.location = `phase2_quiz.html?set=${set}&article=${articleLetter}`;
         }
     }, 1000);
 
     document.getElementById("doneBtn").onclick = () => {
         clearInterval(interval);
+        
+        const timeSpent = TOTAL_TIME - t;
+        // --- บันทึกข้อมูลเมื่ออ่านจบก่อนหมดเวลา (ใช้ Key P2) ---
+        const data = window.Experiment.loadExperimentData();
+        data.read_time_P2 = timeSpent; 
+        window.Experiment.saveExperimentData(data);
+
         window.location = `phase2_quiz.html?set=${set}&article=${articleLetter}`;
     };
 })();

@@ -5,6 +5,16 @@
 <title>CS384 — ใส่รหัสชุดทดสอบ</title>
 <link rel="stylesheet" href="style.css" />
 <script src="main.js" defer></script>
+<style>
+  /* เพิ่ม style เพื่อให้ดูดีขึ้น */
+  body { font-family: sans-serif; padding: 20px; text-align: center; }
+  h1 { color: #333; }
+  .error { color: red; margin-top: 10px; font-weight: bold; }
+  .form-row { margin-bottom: 15px; }
+  input, button { padding: 10px; font-size: 16px; border-radius: 5px; border: 1px solid #ccc; }
+  button { background-color: #4CAF50; color: white; border: none; cursor: pointer; margin-left: 10px; }
+  button:hover { background-color: #45a049; }
+</style>
 </head>
 <body>
   <h1>CS384 — เริ่มการทดลอง</h1>
@@ -21,13 +31,15 @@ document.getElementById("startBtn").addEventListener("click", ()=>{
   const code = document.getElementById("codeInput").value.trim().toUpperCase();
   const err = document.getElementById("codeError");
   err.style.display = "none";
+  
+  // 1. ตรวจสอบรหัสความถูกต้อง (ฟังก์ชันเดิม)
   if (!["S1","S2","S3","S4"].includes(code)) {
     err.textContent = "รหัสไม่ถูกต้อง — กรุณากรอก S1, S2, S3 หรือ S4";
     err.style.display = "block";
     return;
   }
 
-  // Decide whether Phase1 is read or listen
+  // 2. ตรวจสอบว่าสคริปต์หลัก (main.js) โหลดแล้ว (ฟังก์ชันเดิม)
   const cond = window.Experiment.CONDITION[code];
   if (!cond) {
     err.textContent = "สคริปต์ยังไม่โหลดหรือรหัสผิด";
@@ -35,11 +47,23 @@ document.getElementById("startBtn").addEventListener("click", ()=>{
     return;
   }
 
+  // 3. --- NEW: ล้างข้อมูลเก่าก่อนเริ่มการทดลองใหม่ ---
+  // การล้างข้อมูลเก่าใน localStorage เพื่อให้มั่นใจว่าข้อมูลที่เก็บใหม่จะไม่ปนกับข้อมูลเก่า
+  if (typeof window.Experiment.clearExperimentData === 'function') {
+      window.Experiment.clearExperimentData();
+  }
+  
+  // 4. --- NEW: บันทึกรหัสชุดทดสอบ (set) ลงใน localStorage ---
+  const initialData = window.Experiment.loadExperimentData();
+  initialData.set = code;
+  window.Experiment.saveExperimentData(initialData);
+
+  // 5. นำทางไปยัง Phase 1 ที่เหมาะสม (ฟังก์ชันเดิม)
   // cond.first indicates e.g. "readA" or "listenB"
   if (cond.first.startsWith("read")) {
-    window.location.href = `phase1_read_ready.html?set=${code}`;
+    window.location.href = `phase1_read_ready.html?set=${code}&article=${cond.first.slice(-1)}`; // ส่ง article letter ไปด้วย
   } else {
-    window.location.href = `phase1_listen_ready.html?set=${code}`;
+    window.location.href = `phase1_listen_ready.html?set=${code}&audio=${cond.first.slice(-1)}`; // ส่ง audio letter ไปด้วย
   }
 });
 </script>

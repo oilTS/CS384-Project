@@ -188,3 +188,15 @@ window.Experiment = {
   computeScore,
   showMessage
 };
+
+const GOOGLE_SCRIPT_URL = "YOUR_EXEC_URL_HERE";
+
+function sendToSheet(data) {
+    fetch(GOOGLE_SCRIPT_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+    })
+    .then(res => console.log("OK"))
+    .catch(err => console.log("ERR", err));
+}

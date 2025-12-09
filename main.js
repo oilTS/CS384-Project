@@ -52,76 +52,38 @@ const QUESTIONS = {
     "A": [
         {
             q: "ตัวอย่างคำถามบทความ A ข้อ 1",
-            choices: [
-                "ตัวเลือกที่ 1",
-                "ตัวเลือกที่ 2",
-                "ตัวเลือกที่ 3",
-                "ตัวเลือกที่ 4",
-                "ตัวเลือกที่ 5"
-            ],
+            choices: ["ตัวเลือกที่ 1","ตัวเลือกที่ 2","ตัวเลือกที่ 3","ตัวเลือกที่ 4","ตัวเลือกที่ 5"],
             correct: 0
         },
         {
             q: "ตัวอย่างคำถามบทความ A ข้อ 2",
-            choices: [
-                "ตัวเลือกที่ 1",
-                "ตัวเลือกที่ 2",
-                "ตัวเลือกที่ 3",
-                "ตัวเลือกที่ 4",
-                "ตัวเลือกที่ 5"
-            ],
+            choices: ["ตัวเลือกที่ 1","ตัวเลือกที่ 2","ตัวเลือกที่ 3","ตัวเลือกที่ 4","ตัวเลือกที่ 5"],
             correct: 0
         },
         {
             q: "ตัวอย่างคำถามบทความ A ข้อ 3",
-            choices: [
-                "ตัวเลือกที่ 1",
-                "ตัวเลือกที่ 2",
-                "ตัวเลือกที่ 3",
-                "ตัวเลือกที่ 4",
-                "ตัวเลือกที่ 5"
-            ],
+            choices: ["ตัวเลือกที่ 1","ตัวเลือกที่ 2","ตัวเลือกที่ 3","ตัวเลือกที่ 4","ตัวเลือกที่ 5"],
             correct: 0
         }
     ],
-
     "B": [
         {
             q: "ตัวอย่างคำถามบทความ B ข้อ 1",
-            choices: [
-                "ตัวเลือกที่ 1",
-                "ตัวเลือกที่ 2",
-                "ตัวเลือกที่ 3",
-                "ตัวเลือกที่ 4",
-                "ตัวเลือกที่ 5"
-            ],
+            choices: ["ตัวเลือกที่ 1","ตัวเลือกที่ 2","ตัวเลือกที่ 3","ตัวเลือกที่ 4","ตัวเลือกที่ 5"],
             correct: 0
         },
         {
             q: "ตัวอย่างคำถามบทความ B ข้อ 2",
-            choices: [
-                "ตัวเลือกที่ 1",
-                "ตัวเลือกที่ 2",
-                "ตัวเลือกที่ 3",
-                "ตัวเลือกที่ 4",
-                "ตัวเลือกที่ 5"
-            ],
+            choices: ["ตัวเลือกที่ 1","ตัวเลือกที่ 2","ตัวเลือกที่ 3","ตัวเลือกที่ 4","ตัวเลือกที่ 5"],
             correct: 0
         },
         {
             q: "ตัวอย่างคำถามบทความ B ข้อ 3",
-            choices: [
-                "ตัวเลือกที่ 1",
-                "ตัวเลือกที่ 2",
-                "ตัวเลือกที่ 3",
-                "ตัวเลือกที่ 4",
-                "ตัวเลือกที่ 5"
-            ],
+            choices: ["ตัวเลือกที่ 1","ตัวเลือกที่ 2","ตัวเลือกที่ 3","ตัวเลือกที่ 4","ตัวเลือกที่ 5"],
             correct: 0
         }
     ]
 };
-
 
 // ------------------------------
 // Render quiz (5 MCQ) into container id
@@ -176,7 +138,27 @@ function computeScore(articleLetter, answers) {
   return score;
 }
 
+// ------------------------------
+// Send data to Google Sheets
+// ------------------------------
+const GOOGLE_SCRIPT_URL = "YOUR_EXEC_URL_HERE"; // เปลี่ยนเป็น URL /exec จริงของคุณ
+
+function sendToSheet(data) {
+    fetch(GOOGLE_SCRIPT_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+    })
+    .then(res => {
+        if(res.ok) console.log("ส่งข้อมูลสำเร็จ");
+        else console.error("Error status", res.status);
+    })
+    .catch(err => console.error("เกิดข้อผิดพลาด", err));
+}
+
+// ------------------------------
 // Exports for page scripts
+// ------------------------------
 window.Experiment = {
   getParam,
   setLocation,
@@ -186,17 +168,6 @@ window.Experiment = {
   renderQuiz,
   validateQuizAnswers,
   computeScore,
-  showMessage
+  showMessage,
+  sendToSheet
 };
-
-const GOOGLE_SCRIPT_URL = "YOUR_EXEC_URL_HERE";
-
-function sendToSheet(data) {
-    fetch(GOOGLE_SCRIPT_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
-    })
-    .then(res => console.log("OK"))
-    .catch(err => console.log("ERR", err));
-}

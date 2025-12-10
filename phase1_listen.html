@@ -75,6 +75,15 @@
         display: flex;
         justify-content: space-between;
     }
+
+    /* [เพิ่ม] สไตล์สำหรับเครดิตเนื้อเรื่อง */
+    .story-credit {
+        margin-top: 15px;
+        font-size: 0.9rem;
+        color: #777;
+        font-style: italic;
+        display: none; /* ซ่อนไว้ก่อนกดเล่น */
+    }
 </style>
 </head>
 
@@ -90,6 +99,8 @@
 
     <div class="player-container">
         <button id="playBtn">▶ เริ่มฟังเสียงบรรยาย</button>
+
+        <div id="storyCredit" class="story-credit"></div>
 
         <div class="progress-wrapper" id="progressArea">
             <div class="progress-bg">
@@ -119,6 +130,7 @@
     const progressArea = document.getElementById("progressArea");
     const progressBar = document.getElementById("progressBar");
     const timeRemaining = document.getElementById("timeRemaining");
+    const storyCredit = document.getElementById("storyCredit"); // อ้างอิง Element เครดิต
     
     let startTime; 
 
@@ -146,14 +158,22 @@
     playBtn.onclick = () => {
         playBtn.disabled = true;
         playBtn.textContent = "🔊 กำลังเล่นเสียงบรรยาย...";
-        playBtn.style.backgroundColor = "#888"; // เปลี่ยนสีปุ่มให้รู้ว่ากดไม่ได้แล้ว
+        playBtn.style.backgroundColor = "#888"; 
         
         progressArea.style.display = "block"; // แสดงแถบเวลา
+        
+        // [เพิ่ม] แสดงเครดิตตามเรื่องที่ฟัง (A หรือ B)
+        if (letter === "A") {
+            storyCredit.textContent = "ที่มา: คัดตัดตอนจาก Alice's Adventures in Wonderland โดย Lewis Carroll";
+        } else if (letter === "B") {
+            storyCredit.textContent = "ที่มา: คัดตัดตอนจาก The Happy Prince โดย Oscar Wilde";
+        }
+        storyCredit.style.display = "block"; // สั่งให้แสดงผลเครดิต
+
         startTime = new Date(); 
         
         audio.play()
         .then(() => {
-            // เล่นสำเร็จ
             console.log("Audio playing...");
         })
         .catch(err => {

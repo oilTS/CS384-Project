@@ -6,10 +6,12 @@
 <link rel="stylesheet" href="style.css">
 <script src="main.js"></script>
 <style>
-    /* เพิ่ม CSS เฉพาะหน้าเพื่อความสวยงาม */
+    /* CSS เพิ่มเติมสำหรับหน้าเตรียมพร้อม */
     body { text-align: center; padding: 40px 20px; line-height: 1.6; }
     h2 { margin-bottom: 20px; color: #333; }
+    
     .instruction { font-size: 1.1em; margin-bottom: 15px; color: #444; }
+    
     .warning-box {
         background-color: #fff3cd;
         border: 1px solid #ffeeba;
@@ -20,6 +22,7 @@
         max-width: 600px;
         font-weight: bold;
     }
+
     button {
         padding: 12px 24px;
         font-size: 16px;
@@ -29,6 +32,17 @@
     #testBtn { background-color: #008CBA; color: white; border: none; border-radius: 4px; }
     #goBtn { background-color: #4CAF50; color: white; border: none; border-radius: 4px; }
     #goBtn:disabled { background-color: #ccc; cursor: not-allowed; }
+
+    /* สไตล์สำหรับเครดิตเพลง */
+    .music-credit {
+        font-size: 0.8rem;
+        color: #888;
+        margin-top: 5px;
+    }
+    .music-credit a {
+        color: #666;
+        text-decoration: underline;
+    }
 </style>
 </head>
 
@@ -53,6 +67,11 @@
     <p>กรุณากดปุ่มด้านล่างเพื่อทดสอบระบบเสียงก่อนเริ่มทำแบบทดสอบ</p>
 
     <button id="testBtn">🔊 ทดสอบระบบเสียง</button>
+    
+    <div class="music-credit">
+        Sound Check: Music by <a href="https://pixabay.com/th/users/clavier-music-16027823/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=285589" target="_blank">Clavier Clavier</a> from <a href="https://pixabay.com/music//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=285589" target="_blank">Pixabay</a>
+    </div>
+
     <br>
     <button id="goBtn" disabled>เสียงชัดเจน / พร้อมเริ่มทำแบบทดสอบ</button>
 
@@ -61,15 +80,10 @@
 <script>
 let tested = false;
 
-// เมื่อกด "ทดสอบเสียง"
 document.getElementById("testBtn").onclick = () => {
-    // ใช้ window.Experiment.getParam แทนการเรียก getParam ตรงๆ
-    const letter = window.Experiment.getParam("audio") || window.Experiment.getParam("article") || "A";
-
-    // ตรวจสอบว่ามีไฟล์เสียงทดสอบอยู่จริง (ควรมีไฟล์ test.mp3 ในโฟลเดอร์ audio)
-    const audio = new Audio(`audio/test.mp3`);
+    // โหลดเสียง Test
+    const audio = new Audio("audio/test.mp3");
     
-    // จัดการกรณีไฟล์เสียงมีปัญหา
     audio.onerror = () => {
         document.getElementById("msg").textContent = "ไม่พบไฟล์เสียงทดสอบ (audio/test.mp3)";
     };
@@ -85,7 +99,6 @@ document.getElementById("testBtn").onclick = () => {
     };
 };
 
-// เมื่อกด "พร้อมเริ่ม"
 document.getElementById("goBtn").onclick = () => {
     if (!tested) {
         document.getElementById("msg").textContent = "กรุณากดปุ่มทดสอบเสียงก่อนดำเนินการต่อ";
@@ -93,12 +106,24 @@ document.getElementById("goBtn").onclick = () => {
     }
 
     const set = window.Experiment.getParam("set");
-    const letter = window.Experiment.getParam("audio"); // รับค่า A หรือ B
+    // หา letter จาก audio หรือ article (เผื่อกรณี URL ผิดพลาด)
+    let letter = window.Experiment.getParam("audio") || window.Experiment.getParam("article");
 
-    // ตรวจสอบว่าเป็น Phase 1 หรือ Phase 2 (ดูจากชื่อไฟล์ HTML ปัจจุบัน หรือ URL)
-    // เพื่อนำทางไปยังหน้าเล่นเสียงที่ถูกต้อง
+    // ถ้าไม่มี letter ให้ลองหาจาก Set
+    if (!letter && set) {
+        const cond = window.Experiment.CONDITION[set];
+        const isPhase2 = window.location.href.includes("phase2");
+        if (isPhase2) {
+             // Phase 2 Logic
+             if (cond.second.startsWith("listen")) letter = cond.second.slice(-1);
+        } else {
+             // Phase 1 Logic
+             if (cond.first.startsWith("listen")) letter = cond.first.slice(-1);
+        }
+    }
+
+    // ตรวจสอบ Phase เพื่อไปหน้า Listen ที่ถูกต้อง
     const isPhase2 = window.location.href.includes("phase2");
-    
     if (isPhase2) {
         window.location = `phase2_listen.html?set=${set}&audio=${letter}`;
     } else {

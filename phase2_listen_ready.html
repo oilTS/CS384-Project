@@ -2,14 +2,16 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<title>การเตรียมความพร้อมก่อนเริ่มการฟัง (ช่วงที่ 2)</title>
+<title>การเตรียมความพร้อมก่อนเริ่มการฟัง</title>
 <link rel="stylesheet" href="style.css">
 <script src="main.js"></script>
 <style>
-    /* CSS ปรับแต่งให้ดูเป็นทางการและอ่านง่าย */
+    /* CSS เพิ่มเติมสำหรับหน้าเตรียมพร้อม */
     body { text-align: center; padding: 40px 20px; line-height: 1.6; }
     h2 { margin-bottom: 20px; color: #333; }
+    
     .instruction { font-size: 1.1em; margin-bottom: 15px; color: #444; }
+    
     .warning-box {
         background-color: #fff3cd;
         border: 1px solid #ffeeba;
@@ -20,6 +22,7 @@
         max-width: 600px;
         font-weight: bold;
     }
+
     button {
         padding: 12px 24px;
         font-size: 16px;
@@ -29,30 +32,46 @@
     #testBtn { background-color: #008CBA; color: white; border: none; border-radius: 4px; }
     #goBtn { background-color: #4CAF50; color: white; border: none; border-radius: 4px; }
     #goBtn:disabled { background-color: #ccc; cursor: not-allowed; }
+
+    /* สไตล์สำหรับเครดิตเพลง */
+    .music-credit {
+        font-size: 0.8rem;
+        color: #888;
+        margin-top: 5px;
+    }
+    .music-credit a {
+        color: #666;
+        text-decoration: underline;
+    }
 </style>
 </head>
 
 <body>
-    <h2>การเตรียมความพร้อมก่อนเริ่มการทดสอบการฟัง (ช่วงที่ 2)</h2>
+    <h2>การเตรียมความพร้อมก่อนเริ่มการทดสอบการฟัง</h2>
 
     <div class="instruction">
-        <p>ท่านกำลังเข้าสู่ช่วงที่ 2 ของการทดลอง ขอความร่วมมือท่านปฏิบัติดังนี้:</p>
+        <p>เพื่อให้การทดสอบเป็นไปอย่างมีประสิทธิภาพ ขอความร่วมมือท่านปฏิบัติดังนี้:</p>
         <ul style="list-style-position: inside; text-align: left; display: inline-block;">
             <li>กรุณา<b>สวมใส่หูฟัง</b> เพื่อความชัดเจนของเสียง</li>
             <li>ควรอยู่ใน<b>สภาพแวดล้อมที่เงียบสงบ</b> ปราศจากเสียงรบกวน</li>
-            <li>ตรวจสอบ<b>ระดับเสียง</b>ของอุปกรณ์อีกครั้งให้อยู่ในระดับที่เหมาะสม</li>
+            <li>กรุณา<b>ปรับระดับเสียง</b>ของอุปกรณ์ให้อยู่ในระดับที่ท่านได้ยินชัดเจนที่สุด</li>
         </ul>
     </div>
 
     <div class="warning-box">
         ⚠️ คำชี้แจงสำคัญ:<br>
-        เสียงบรรยายในบทความถัดไปจะเล่นเพียง 1 ครั้งเท่านั้น<br>
-        (ไม่สามารถหยุดพัก หรือกดย้อนกลับได้)
+        เมื่อท่านกดปุ่มเริ่มแล้ว คลิปเสียงเนื้อหาจะเล่นเพียง 1 ครั้งเท่านั้น<br>
+        และไม่สามารถกดหยุดพัก (Pause) หรือย้อนกลับ (Rewind) ได้
     </div>
 
-    <p>กรุณากดปุ่มด้านล่างเพื่อทดสอบระบบเสียงอีกครั้งก่อนเริ่ม</p>
+    <p>กรุณากดปุ่มด้านล่างเพื่อทดสอบระบบเสียงก่อนเริ่มทำแบบทดสอบ</p>
 
     <button id="testBtn">🔊 ทดสอบระบบเสียง</button>
+    
+    <div class="music-credit">
+        Sound Check: Music by <a href="https://pixabay.com/th/users/clavier-music-16027823/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=285589" target="_blank">Clavier Clavier</a> from <a href="https://pixabay.com/music//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=285589" target="_blank">Pixabay</a>
+    </div>
+
     <br>
     <button id="goBtn" disabled>เสียงชัดเจน / พร้อมเริ่มทำแบบทดสอบ</button>
 
@@ -61,11 +80,10 @@
 <script>
 let tested = false;
 
-// เมื่อกด "ทดสอบเสียง"
 document.getElementById("testBtn").onclick = () => {
+    // โหลดเสียง Test
     const audio = new Audio("audio/test.mp3");
     
-    // ดักจับ Error กรณีหาไฟล์ไม่เจอ
     audio.onerror = () => {
         document.getElementById("msg").textContent = "ไม่พบไฟล์เสียงทดสอบ (audio/test.mp3)";
     };
@@ -81,19 +99,36 @@ document.getElementById("testBtn").onclick = () => {
     };
 };
 
-// เมื่อกด "พร้อมเริ่ม"
 document.getElementById("goBtn").onclick = () => {
     if (!tested) {
         document.getElementById("msg").textContent = "กรุณากดปุ่มทดสอบเสียงก่อนดำเนินการต่อ";
         return;
     }
 
-    // ใช้ window.Experiment.getParam เพื่อความถูกต้องตาม main.js
     const set = window.Experiment.getParam("set");
-    const letter = window.Experiment.getParam("audio");
+    // หา letter จาก audio หรือ article (เผื่อกรณี URL ผิดพลาด)
+    let letter = window.Experiment.getParam("audio") || window.Experiment.getParam("article");
 
-    // ไปยังหน้าฟังเสียงของ Phase 2
-    window.location = `phase2_listen.html?set=${set}&audio=${letter}`;
+    // ถ้าไม่มี letter ให้ลองหาจาก Set
+    if (!letter && set) {
+        const cond = window.Experiment.CONDITION[set];
+        const isPhase2 = window.location.href.includes("phase2");
+        if (isPhase2) {
+             // Phase 2 Logic
+             if (cond.second.startsWith("listen")) letter = cond.second.slice(-1);
+        } else {
+             // Phase 1 Logic
+             if (cond.first.startsWith("listen")) letter = cond.first.slice(-1);
+        }
+    }
+
+    // ตรวจสอบ Phase เพื่อไปหน้า Listen ที่ถูกต้อง
+    const isPhase2 = window.location.href.includes("phase2");
+    if (isPhase2) {
+        window.location = `phase2_listen.html?set=${set}&audio=${letter}`;
+    } else {
+        window.location = `phase1_listen.html?set=${set}&audio=${letter}`;
+    }
 };
 </script>
 

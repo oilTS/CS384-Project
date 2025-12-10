@@ -1,47 +1,91 @@
 <!DOCTYPE html>
 <html lang="th">
-<head><meta charset="utf-8" /><title>เตรียมอ่าน — Phase 2</title>
-<link rel="stylesheet" href="style.css" />
-<script src="main.js" defer></script>
-</head>
-<body>
-  <h2>เตรียมพร้อม: การอ่าน (Phase 2)</h2>
-  <div class="notice">
-    <p>คำแนะนำ: อ่านบทความให้ครบในเวลา 3 นาที หรือกด 'อ่านเรียบร้อยแล้ว' เพื่อไปยังแบบทดสอบ</p>
-  </div>
+<head>
+<meta charset="UTF-8">
+<title>การเตรียมความพร้อมก่อนเริ่มการอ่าน (ช่วงที่ 2)</title>
+<link rel="stylesheet" href="style.css">
+<script src="main.js"></script>
+<style>
+    /* CSS ปรับแต่งให้ดูเป็นทางการ */
+    body { text-align: center; padding: 40px 20px; line-height: 1.6; }
+    h2 { margin-bottom: 20px; color: #333; }
+    
+    .instruction { 
+        font-size: 1.1em; 
+        margin-bottom: 15px; 
+        color: #444; 
+    }
+    
+    .warning-box {
+        background-color: #fff3cd;
+        border: 1px solid #ffeeba;
+        color: #856404;
+        padding: 15px;
+        margin: 20px auto;
+        border-radius: 5px;
+        max-width: 600px;
+        font-weight: bold;
+    }
 
-  <div class="center">
-    <button id="go">เริ่มอ่าน (Phase2)</button>
-  </div>
+    button {
+        padding: 15px 40px;
+        font-size: 18px;
+        background-color: #2196F3; /* สีฟ้าสำหรับการอ่าน */
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 20px;
+        transition: background-color 0.3s;
+    }
+    button:hover { background-color: #1976D2; }
+</style>
+</head>
+
+<body>
+    <h2>การเตรียมความพร้อมก่อนเริ่มการอ่าน (ช่วงที่ 2)</h2>
+
+    <div class="instruction">
+        <p>ท่านกำลังเข้าสู่ช่วงที่ 2 ของการทดลองด้วยวิธีการ <b>"อ่าน"</b> ขอความร่วมมือท่านปฏิบัติดังนี้:</p>
+        <ul style="list-style-position: inside; text-align: left; display: inline-block;">
+            <li>ควรอยู่ใน<b>สภาพแวดล้อมที่เงียบสงบ</b> เพื่อให้มีสมาธิในการอ่าน</li>
+            <li>ท่านจะมีเวลาในการอ่านบทความประมาณ <b>3 นาที</b></li>
+            <li>พยายามเก็บรายละเอียดของเนื้อหาให้ได้มากที่สุดเพื่อใช้ในการตอบคำถาม</li>
+        </ul>
+    </div>
+
+    <div class="warning-box">
+        ⚠️ คำชี้แจงสำคัญ:<br>
+        เมื่อท่านกดปุ่ม "อ่านเรียบร้อยแล้ว" เพื่อทำแบบทดสอบ<br>
+        ท่านจะ <u>ไม่สามารถย้อนกลับ</u> มาอ่านบทความเนื้อหาได้อีก
+    </div>
+
+    <button id="go">พร้อมแล้ว / เริ่มอ่านบทความ</button>
 
 <script>
-document.getElementById("go").addEventListener("click", ()=>{
-  const set = window.Experiment.getParam("set");
-  // second mapping: find which article letter to read in phase2
-  // if CONDITION[set].first was readA/readB, second is listenB/listenA.
-  // For phase2 read, check keys: if first was listenA/listenB then second read is readB/readA
-  const cond = window.Experiment.CONDITION[set];
-  // If cond.first startsWith 'listen' then cond.second will be 'readX', else cond.second is 'listenX' so we need to extract read letter
-  let letter = null;
-  // find which read letter is not used in phase1
-  if (cond.first.startsWith("listen")) {
-    // cond.first is listenA/listenB; cond.second should be readX stored as readSecond-like - but mapping used earlier: second may be 'readB' etc.
-    // We can deduce: for S3 cond.first=listenA, cond.second=readB -> read B
-    // So find cond.second if present:
-    const sec = cond.second || "";
-    if (sec.startsWith("read")) {
-      letter = sec.endsWith("A") ? "A" : "B";
-    } else {
-      // fallback: pick the opposite of first
-      letter = cond.first.endsWith("A") ? "B" : "A";
-    }
-  } else {
-    // For cases where first was read..., second is listen..., so phase2 read should not happen here
-    letter = cond.second && cond.second.startsWith("read") ? (cond.second.endsWith("A") ? "A" : "B") : (cond.first.endsWith("A") ? "B" : "A");
-  }
+document.getElementById("go").addEventListener("click", () => {
+    const set = window.Experiment.getParam("set");
+    let letter = window.Experiment.getParam("article");
 
-  window.location.href = `phase2_read.html?set=${set}&article=${letter}`;
+    // กรณีไม่มีพารามิเตอร์ article ใน URL ให้คำนวณหาจากเงื่อนไข Set
+    if (!letter && set) {
+        const cond = window.Experiment.CONDITION[set];
+        // ตรวจสอบว่า Phase 2 เป็นการอ่านจริงหรือไม่
+        if (cond && cond.second.startsWith("read")) {
+            // ดึงตัวอักษรตัวสุดท้ายจาก string เช่น "readB" -> "B"
+            letter = cond.second.slice(-1);
+        }
+    }
+
+    if (!set || !letter) {
+        alert("เกิดข้อผิดพลาด: ไม่พบข้อมูลชุดทดสอบ หรือบทความสำหรับช่วงที่ 2");
+        return;
+    }
+
+    // ไปยังหน้าอ่านบทความ Phase 2
+    window.location.href = `phase2_read.html?set=${set}&article=${letter}`;
 });
 </script>
+
 </body>
 </html>

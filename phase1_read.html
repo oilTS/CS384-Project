@@ -2,56 +2,173 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<title>อ่านบทความ (Phase 1)</title>
+<title>การทดสอบการอ่าน (ช่วงที่ 1)</title>
 <link rel="stylesheet" href="style.css">
 <script src="main.js"></script>
+<style>
+    /* CSS สำหรับหน้าอ่านโดยเฉพาะ */
+    body { 
+        text-align: center; 
+        padding: 20px; 
+        background-color: #f5f5f5; 
+    }
+
+    /* แถบเวลาแบบ Sticky ด้านบน */
+    .timer-bar {
+        position: sticky;
+        top: 0;
+        background-color: #fff;
+        padding: 15px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        z-index: 100;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        font-weight: bold;
+        color: #d32f2f;
+        font-size: 1.2em;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .article-container {
+        max-width: 800px;
+        margin: 0 auto;
+        background-color: white;
+        padding: 40px;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        text-align: left;
+        line-height: 1.8; /* เพิ่มระยะห่างบรรทัดให้อ่านง่าย */
+        font-size: 1.1em;
+        color: #333;
+    }
+
+    h2 { margin-top: 0; color: #2c3e50; }
+
+    .instruction {
+        font-size: 0.9em;
+        color: #666;
+        margin-bottom: 20px;
+        font-style: italic;
+        text-align: center;
+    }
+
+    button {
+        margin-top: 30px;
+        padding: 15px 40px;
+        font-size: 18px;
+        background-color: #2196F3;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    button:hover { background-color: #1976D2; }
+
+    /* Animation เมื่อเวลาใกล้หมด */
+    .urgent {
+        animation: pulse 1s infinite;
+        color: red;
+    }
+    @keyframes pulse {
+        0% { opacity: 1; }
+        50% { opacity: 0.5; }
+        100% { opacity: 1; }
+    }
+</style>
 </head>
 
 <body>
-<h2>อ่านบทความ — Phase 1</h2>
 
-<div id="timer" class="notice">เวลา: 180 วินาที</div>
+    <div id="timerBar" class="timer-bar">
+        ⏳ เหลือเวลา: <span id="timerText">03:00</span>
+    </div>
 
-<div id="articleBox" class="article-box">กำลังโหลดบทความ...</div>
+    <div class="article-container">
+        <h2>บทความสำหรับการทดสอบ (ช่วงที่ 1)</h2>
+        <div class="instruction">
+            คำชี้แจง: กรุณาอ่านบทความด้านล่างนี้อย่างละเอียด ท่านมีเวลาสูงสุด 3 นาที<br>
+            เมื่ออ่านจบแล้วให้กดปุ่มด้านล่างเพื่อทำแบบทดสอบวัดความเข้าใจ
+        </div>
+        <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
+        
+        <div id="articleBox">
+            <p style="text-align:center; color:#999;">กำลังโหลดเนื้อหาบทความ...</p>
+        </div>
+    </div>
 
-<button id="doneBtn">อ่านเรียบร้อยแล้ว</button>
+    <button id="doneBtn">อ่านจบแล้ว / เริ่มทำแบบทดสอบ</button>
+    <p style="margin-top:10px; font-size:0.85em; color:#777;">
+        (กดปุ่มนี้เมื่อท่านมั่นใจ ท่านจะไม่สามารถย้อนกลับมาอ่านได้อีก)
+    </p>
 
 <script>
 (async () => {
     const set = window.Experiment.getParam("set");
     const articleLetter = window.Experiment.getParam("article");
 
+    // โหลดบทความ
     const html = await window.Experiment.loadArticle(articleLetter);
     document.getElementById("articleBox").innerHTML = html;
 
-    let t = 180;
+    // ตั้งค่าเวลา (3 นาที = 180 วินาที)
     const TOTAL_TIME = 180; 
-    const timerEl = document.getElementById("timer");
+    let t = TOTAL_TIME; 
+    
+    const timerText = document.getElementById("timerText");
+    const timerBar = document.getElementById("timerBar");
+
+    // ฟังก์ชันแปลงวินาทีเป็น MM:SS
+    function updateDisplay(seconds) {
+        const m = Math.floor(seconds / 60);
+        const s = seconds % 60;
+        timerText.textContent = `0${m}:${s < 10 ? '0' : ''}${s}`;
+        
+        // ถ้าเหลือน้อยกว่า 30 วินาที ให้ตัวหนังสือกระพริบเตือน
+        if (seconds <= 30) {
+            timerBar.classList.add("urgent");
+        }
+    }
 
     const interval = setInterval(() => {
         t--;
-        timerEl.textContent = `เวลา: ${t} วินาที`;
+        updateDisplay(t);
 
         if (t <= 0) {
             clearInterval(interval);
-            
-            const data = window.Experiment.loadExperimentData();
-            data.read_time = TOTAL_TIME; 
-            window.Experiment.saveExperimentData(data);
-
-            window.location = `phase1_quiz.html?set=${set}&article=${articleLetter}`;
+            // หมดเวลา -> บันทึกและไปต่อทันที
+            finishReading(TOTAL_TIME); // เวลาที่ใช้ = เวลาเต็ม (180s)
         }
     }, 1000);
 
+    // ฟังก์ชันจบการอ่าน
+    function finishReading(timeUsed) {
+        const data = window.Experiment.loadExperimentData();
+        
+        // เช็คว่าเป็น Phase 1 หรือ 2 (ดูจาก URL หรือ Logic ก็ได้)
+        // แต่ไฟล์นี้คือ phase1_read.html ดังนั้นบันทึก read_time ปกติ
+        data.read_time = timeUsed; 
+        
+        window.Experiment.saveExperimentData(data);
+        
+        // เปลี่ยนข้อความปุ่มเพื่อแจ้งสถานะ
+        const btn = document.getElementById("doneBtn");
+        btn.textContent = "กำลังเข้าสู่แบบทดสอบ...";
+        btn.disabled = true;
+
+        // ไปหน้า Quiz
+        setTimeout(() => {
+            window.location = `phase1_quiz.html?set=${set}&article=${articleLetter}`;
+        }, 500);
+    }
+
     document.getElementById("doneBtn").onclick = () => {
         clearInterval(interval);
-        
-        const timeSpent = TOTAL_TIME - t;
-        const data = window.Experiment.loadExperimentData();
-        data.read_time = timeSpent; 
-        window.Experiment.saveExperimentData(data);
-
-        window.location = `phase1_quiz.html?set=${set}&article=${articleLetter}`;
+        const timeSpent = TOTAL_TIME - t; // คำนวณเวลาที่ใช้จริง
+        finishReading(timeSpent);
     };
 })();
 </script>

@@ -1,62 +1,293 @@
-/* style.css */
+/* =========================================
+   1. CORE & TYPOGRAPHY
+   ========================================= */
+@import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&family=Sarabun:wght@300;400;600&display=swap');
+
+:root {
+    --primary-blue: #2196F3;
+    --primary-blue-dark: #1976D2;
+    --primary-green: #4CAF50;
+    --primary-green-dark: #388E3C;
+    --text-color: #333;
+    --bg-color: #f4f4f9;
+    --card-bg: #ffffff;
+    --error-color: #d32f2f;
+    --warning-bg: #fff3cd;
+    --warning-text: #856404;
+}
+
 body {
-  font-family: "Noto Sans", "Prompt", sans-serif;
-  max-width: 900px;
-  margin: 20px auto;
-  padding: 18px;
-  color: #222;
-  line-height: 1.6;
+    font-family: 'Sarabun', 'Prompt', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
 }
 
-h1,h2,h3 { color: #0b4da2; }
+/* =========================================
+   2. CONTAINERS & CARDS (Desktop Default)
+   ========================================= */
+.container, .article-container, #quiz-container, form {
+    background-color: var(--card-bg);
+    width: 100%;
+    max-width: 800px; /* จำกัดความกว้างสูงสุดสำหรับจอคอม */
+    margin: 0 auto;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    box-sizing: border-box; /* สำคัญมากสำหรับการคำนวณขนาด */
+}
 
+h1, h2, h3 { color: #2c3e50; margin-top: 0; }
+h1 { font-size: 1.8rem; text-align: center; }
+h2 { font-size: 1.5rem; text-align: center; margin-bottom: 30px; }
+h3 { font-size: 1.2rem; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 30px; }
+
+p, li { font-size: 1rem; }
+
+/* =========================================
+   3. BOXES (Instruction / Warning)
+   ========================================= */
+.instruction-box, .info-box {
+    background-color: #e3f2fd;
+    border-left: 5px solid var(--primary-blue);
+    padding: 20px;
+    border-radius: 4px;
+    margin-bottom: 25px;
+    text-align: left;
+}
+
+.warning-box, .notice {
+    background-color: var(--warning-bg);
+    border: 1px solid #ffeeba;
+    color: var(--warning-text);
+    padding: 15px;
+    border-radius: 6px;
+    margin: 20px auto;
+    text-align: center;
+    font-weight: 500;
+}
+
+.privacy-box {
+    background-color: #fafafa;
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    color: #666;
+    margin-top: 20px;
+}
+
+/* =========================================
+   4. FORMS & INPUTS
+   ========================================= */
+.login-section {
+    margin-top: 30px;
+    text-align: center;
+    padding: 30px;
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid #eee;
+}
+
+input[type="text"] {
+    padding: 12px 15px;
+    font-size: 18px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    text-align: center;
+    text-transform: uppercase;
+    outline: none;
+    width: 150px;
+    max-width: 100%;
+}
+
+textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-family: inherit;
+    resize: vertical;
+    box-sizing: border-box;
+}
+
+.question-block {
+    margin-bottom: 25px;
+    text-align: left;
+    padding: 15px;
+    border-bottom: 1px solid #f0f0f0; /* เส้นแบ่งบางๆ ระหว่างข้อ */
+}
+
+label {
+    display: flex;
+    align-items: center; /* จัดให้ radio กับข้อความตรงกันแนวดิ่ง */
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 8px;
+    border-radius: 6px;
+    transition: background-color 0.2s;
+}
+
+label:hover { background-color: #f5f5f5; }
+
+input[type="radio"] {
+    transform: scale(1.3);
+    margin-right: 15px;
+    cursor: pointer;
+}
+
+/* =========================================
+   5. BUTTONS
+   ========================================= */
 button {
-  background: #0b63d4;
-  color: white;
-  border: none;
-  padding: 10px 16px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 15px;
-}
-button[disabled] {
-  opacity: 0.5;
-  cursor: not-allowed;
+    padding: 14px 35px;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: 'Prompt', sans-serif;
+    color: white;
+    background-color: var(--primary-green);
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    margin-top: 20px;
+    /* ป้องกันข้อความล้นปุ่มบนจอมือถือ */
+    max-width: 100%; 
+    white-space: normal;
+    line-height: 1.4;
 }
 
-.notice {
-  background: #fff7e6;
-  border-left: 4px solid #f5a623;
-  padding: 10px;
-  margin: 10px 0;
+button:hover {
+    background-color: var(--primary-green-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+button:disabled {
+    background-color: #bdbdbd;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+button#goRead { background-color: var(--primary-blue); }
+button#goRead:hover { background-color: var(--primary-blue-dark); }
+
+/* =========================================
+   6. SPECIAL MODULES (Timer, Audio)
+   ========================================= */
+.timer-bar {
+    position: sticky;
+    top: 0;
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 15px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    z-index: 1000;
+    width: 100%; /* เต็มจอเสมอ */
+    margin-bottom: 20px;
+    color: var(--error-color);
+    font-weight: bold;
+    font-size: 1.2rem;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.player-container {
+    background: #f1f8e9;
+    border: 1px solid #c5e1a5;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 100%;
 }
 
 .error {
-  color: #b91c1c;
-  font-weight: 600;
-  margin: 8px 0;
+    color: var(--error-color);
+    background-color: #ffebee;
+    padding: 10px;
+    border-radius: 4px;
+    margin-top: 15px;
+    font-weight: bold;
+    display: none;
+    border: 1px solid #ffcdd2;
 }
 
-.article-box {
-  border: 1px solid #ddd;
-  padding: 14px;
-  height: 320px;
-  overflow-y: auto;
-  background: #fff;
-  margin-top: 10px;
+/* =========================================
+   7. RESPONSIVE MEDIA QUERIES
+   ========================================= */
+
+/* --- TABLET (หน้าจอเล็กกว่า 768px) --- */
+@media (max-width: 768px) {
+    body { padding: 10px; }
+    
+    .container, .article-container, #quiz-container, form {
+        padding: 25px; /* ลด padding */
+        border-radius: 8px;
+    }
+
+    h1 { font-size: 1.5rem; }
+    h2 { font-size: 1.3rem; }
+    
+    input[type="text"] { width: 100%; margin-bottom: 10px; }
+    
+    /* จัดปุ่มในหน้า Login ให้ลงมาอยู่บรรทัดใหม่ถ้ายาวเกิน */
+    .login-section .form-row {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .login-section button { margin-left: 0; width: 100%; }
 }
 
-.container {
-  margin: 0 auto;
-}
+/* --- MOBILE (หน้าจอเล็กกว่า 480px) --- */
+@media (max-width: 480px) {
+    body { padding: 5px; }
 
-.center { text-align:center; }
+    .container, .article-container, #quiz-container, form {
+        padding: 20px 15px; /* ลด padding ให้เนื้อหาเต็มจอ */
+        box-shadow: none;   /* เอาเงาออกเพื่อให้ดูสะอาดบนมือถือ */
+    }
 
-.form-row { margin: 10px 0; }
+    h1 { font-size: 1.3rem; line-height: 1.4; }
+    h2 { font-size: 1.2rem; }
+    h3 { font-size: 1.1rem; }
+    
+    /* ขยาย Font ให้อ่านง่ายบนจอมือถือ */
+    p, li, label { font-size: 1rem; line-height: 1.5; }
 
-.option-label { display:block; margin:6px 0; }
+    /* ปุ่มกดเต็มความกว้าง */
+    button {
+        width: 100%;
+        padding: 15px;
+        font-size: 1.1rem;
+        border-radius: 8px; /* ลดความโค้งให้ดูเต็มพื้นที่ */
+    }
 
-.small {
-  font-size: 14px;
-  color: #444;
+    /* กล่องคำเตือน */
+    .warning-box, .notice {
+        font-size: 0.9rem;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    /* Timer Bar เล็กลงหน่อย */
+    .timer-bar {
+        padding: 10px;
+        font-size: 1rem;
+    }
+    
+    /* ปรับ Radio button ให้อยู่ห่างกันมากขึ้นเพื่อกันนิ้วเบียด */
+    label {
+        padding: 12px 0;
+        border-bottom: 1px solid #f9f9f9;
+    }
 }

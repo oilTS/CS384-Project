@@ -23,7 +23,6 @@
         <label><input type="radio" name="q1" value="5"> 5 (มากที่สุด) </label>
     </div>
     <hr>
-
     <div class="question-block">
         <p><b>2. ท่านมีความพึงพอใจด้าน "สุนทรียภาพ" (Aesthetics) จากการรับสารด้วยวิธีการ <u>ฟัง</u> มากน้อยเพียงใด *</b></p>
         <label><input type="radio" name="q2" value="1"> 1 (น้อยที่สุด) </label><br>
@@ -33,7 +32,6 @@
         <label><input type="radio" name="q2" value="5"> 5 (มากที่สุด) </label>
     </div>
     <hr>
-
     <div class="question-block">
         <p><b>3. ท่านคิดว่าการรับสารด้วยวิธีการ <u>อ่าน</u> ส่งผลต่อ "ความเข้าใจเนื้อหา" มากน้อยเพียงใด *</b></p>
         <label><input type="radio" name="q3" value="1"> 1 (น้อยที่สุด) </label><br>
@@ -43,7 +41,6 @@
         <label><input type="radio" name="q3" value="5"> 5 (มากที่สุด) </label>
     </div>
     <hr>
-
     <div class="question-block">
         <p><b>4. ท่านคิดว่าการรับสารด้วยวิธีการ <u>ฟัง</u> ส่งผลต่อ "ความเข้าใจเนื้อหา" มากน้อยเพียงใด *</b></p>
         <label><input type="radio" name="q4" value="1"> 1 (น้อยที่สุด) </label><br>
@@ -53,7 +50,6 @@
         <label><input type="radio" name="q4" value="5"> 5 (มากที่สุด) </label>
     </div>
     <hr>
-
     <div class="question-block">
         <p><b>5. ท่านคิดว่าวิธีการรับสารรูปแบบใด ช่วยให้ท่าน "มีสมาธิ" จดจ่อกับเนื้อหาได้ดีกว่า *</b></p>
         <label><input type="radio" name="q5" value="Read"> การอ่าน (Reading) </label><br>
@@ -61,7 +57,6 @@
         <label><input type="radio" name="q5" value="Equal"> ใกล้เคียงกัน (Equal) </label>
     </div>
     <hr>
-
     <div class="question-block">
         <p><b>6. โดยภาพรวม ท่าน "พึงพอใจ" ต่อวิธีการรับสารรูปแบบใดมากกว่า *</b></p>
         <label><input type="radio" name="q6" value="Read"> การอ่าน (Reading) </label><br>
@@ -78,7 +73,15 @@
     <hr>
 
     <div class="question-block">
-        <p><b>8. ในชีวิตประจำวัน ท่านมีพฤติกรรมการเสพสื่อ (ข่าวสาร/ความบันเทิง) ผ่านช่องทางใดเป็นหลัก *</b></p>
+        <p><b>8. ท่านคิดว่าวิธีการรับสารรูปแบบใด ช่วยให้ท่าน "จดจำ" รายละเอียดของเนื้อหาได้ดีกว่า *</b></p>
+        <label><input type="radio" name="q8" value="Read"> การอ่าน (Reading) </label><br>
+        <label><input type="radio" name="q8" value="Listen"> การฟัง (Listening) </label><br>
+        <label><input type="radio" name="q8" value="Equal"> ใกล้เคียงกัน (Equal) </label>
+    </div>
+    <hr>
+
+    <div class="question-block">
+        <p><b>9. ในชีวิตประจำวัน ท่านมีพฤติกรรมการเสพสื่อ (ข่าวสาร/ความบันเทิง) ผ่านช่องทางใดเป็นหลัก *</b></p>
         <label><input type="radio" name="q9" value="Read"> เน้นการอ่าน (หนังสือ/บทความออนไลน์/โซเชียลมีเดีย) </label><br>
         <label><input type="radio" name="q9" value="Listen"> เน้นการฟัง (Podcast/Youtube/Audiobook) </label><br>
         <label><input type="radio" name="q9" value="Equal"> ทั้งสองรูปแบบใกล้เคียงกัน </label>
@@ -86,7 +89,7 @@
     <hr>
 
     <div class="question-block">
-        <p><b>9. ข้อเสนอแนะเพิ่มเติม (ถ้ามี)</b></p>
+        <p><b>10. ข้อเสนอแนะเพิ่มเติม (ถ้ามี)</b></p>
         <textarea id="feedback" style="width:100%; height:80px;" placeholder="พิมพ์ข้อเสนอแนะของท่านที่นี่..."></textarea>
     </div>
 
@@ -99,8 +102,8 @@
 document.getElementById("submitBtn").onclick = () => {
     let requiredOK = true;
     
-    // ตรวจสอบข้อที่มี (q1-q6, q7, q9)
-    const questionsToCheck = ["q1", "q2", "q3", "q4", "q5", "q6", "q7", "q9"];
+    // ตรวจสอบ Q1-Q9 (เพิ่ม q8 เข้าไปในรายการ)
+    const questionsToCheck = ["q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8", "q9"];
     
     questionsToCheck.forEach(name => {
         const v = document.querySelector(`input[name="${name}"]:checked`);

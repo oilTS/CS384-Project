@@ -1,33 +1,90 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-<meta charset="utf-8" />
-<title>เตรียมอ่าน — Phase 1</title>
-<link rel="stylesheet" href="style.css" />
-<script src="main.js" defer></script>
+<meta charset="UTF-8">
+<title>การเตรียมความพร้อมก่อนเริ่มการอ่าน (ช่วงที่ 1)</title>
+<link rel="stylesheet" href="style.css">
+<script src="main.js"></script>
+<style>
+    /* CSS ปรับแต่งให้ดูเป็นทางการ */
+    body { text-align: center; padding: 40px 20px; line-height: 1.6; }
+    h2 { margin-bottom: 20px; color: #333; }
+    
+    .instruction { 
+        font-size: 1.1em; 
+        margin-bottom: 15px; 
+        color: #444; 
+    }
+    
+    .warning-box {
+        background-color: #fff3cd;
+        border: 1px solid #ffeeba;
+        color: #856404;
+        padding: 15px;
+        margin: 20px auto;
+        border-radius: 5px;
+        max-width: 600px;
+        font-weight: bold;
+    }
+
+    button {
+        padding: 15px 40px;
+        font-size: 18px;
+        background-color: #2196F3; /* สีฟ้าสำหรับการอ่าน */
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 20px;
+        transition: background-color 0.3s;
+    }
+    button:hover { background-color: #1976D2; }
+</style>
 </head>
+
 <body>
-  <h2>เตรียมพร้อม: การอ่าน (Phase 1)</h2>
+    <h2>การเตรียมความพร้อมก่อนเริ่มการอ่าน (ช่วงที่ 1)</h2>
 
-  <div class="notice">
-    <p>ข้อแนะนำก่อนเริ่ม:</p>
-    <ul>
-      <li>อยู่ในที่เงียบสงบ</li>
-      <li>สวมหูฟัง (ถ้ามี)</li>
-      <li>อ่านข้อความให้ครบภายใน 3 นาที (ผู้ใช้สามารถกด 'อ่านเรียบร้อยแล้ว' เพื่อข้ามได้)</li>
-    </ul>
-  </div>
+    <div class="instruction">
+        <p>ท่านกำลังจะเข้าสู่การทดสอบด้วยวิธีการ <b>"อ่าน"</b> ขอความร่วมมือท่านปฏิบัติดังนี้:</p>
+        <ul style="list-style-position: inside; text-align: left; display: inline-block;">
+            <li>ควรอยู่ใน<b>สภาพแวดล้อมที่เงียบสงบ</b> เพื่อให้มีสมาธิในการอ่าน</li>
+            <li>ท่านจะมีเวลาในการอ่านบทความประมาณ <b>3 นาที</b></li>
+            <li>พยายามเก็บรายละเอียดของเนื้อหาให้ได้มากที่สุดเพื่อใช้ในการตอบคำถาม</li>
+        </ul>
+    </div>
 
-  <div class="center">
-    <button id="goRead">เริ่มอ่าน</button>
-  </div>
+    <div class="warning-box">
+        ⚠️ คำชี้แจงสำคัญ:<br>
+        เมื่อท่านกดปุ่ม "อ่านเรียบร้อยแล้ว" เพื่อทำแบบทดสอบ<br>
+        ท่านจะ <u>ไม่สามารถย้อนกลับ</u> มาอ่านบทความเนื้อหาได้อีก
+    </div>
+
+    <button id="goRead">พร้อมแล้ว / เริ่มอ่านบทความ</button>
 
 <script>
-document.getElementById("goRead").addEventListener("click", ()=>{
-  const set = window.Experiment.getParam("set");
-  const letter = window.Experiment.CONDITION[set].first.endsWith("A") ? "A" : "B";
-  window.location.href = `phase1_read.html?set=${set}&article=${letter}`;
+document.getElementById("goRead").addEventListener("click", () => {
+    // 1. ดึงข้อมูลจาก URL หรือคำนวณใหม่
+    const set = window.Experiment.getParam("set");
+    let articleLetter = window.Experiment.getParam("article");
+
+    // ถ้าไม่มีพารามิเตอร์ article ให้ลองหาจาก Logic (เผื่อไว้)
+    if (!articleLetter && set) {
+        const cond = window.Experiment.CONDITION[set];
+        if (cond && cond.first.startsWith("read")) {
+            articleLetter = cond.first.endsWith("A") ? "A" : "B";
+        }
+    }
+
+    if (!set || !articleLetter) {
+        alert("เกิดข้อผิดพลาด: ไม่พบข้อมูลชุดทดสอบ (Set Code)");
+        return;
+    }
+
+    // 2. ไปยังหน้าอ่านบทความ
+    window.location.href = `phase1_read.html?set=${set}&article=${articleLetter}`;
 });
 </script>
+
 </body>
 </html>

@@ -2,24 +2,111 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<title>ฟังเสียง — Phase 2</title>
+<title>การทดสอบการฟัง (ช่วงที่ 2)</title>
 <link rel="stylesheet" href="style.css">
 <script src="main.js"></script>
+<style>
+    /* CSS สำหรับหน้าฟังเสียงโดยเฉพาะ */
+    body { text-align: center; padding: 40px 20px; line-height: 1.6; }
+    h2 { margin-bottom: 20px; color: #333; }
+    
+    .warning-box {
+        background-color: #fff3cd;
+        border: 1px solid #ffeeba;
+        color: #856404;
+        padding: 15px;
+        margin: 20px auto;
+        border-radius: 5px;
+        max-width: 600px;
+        font-weight: bold;
+    }
+
+    /* Container สำหรับตัวเล่นเสียง */
+    .player-container {
+        margin: 30px auto;
+        max-width: 500px;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        background-color: #f9f9f9;
+    }
+
+    /* ปุ่ม Play */
+    #playBtn {
+        padding: 15px 40px;
+        font-size: 18px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    #playBtn:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+    }
+
+    /* Progress Bar (Read-only) */
+    .progress-wrapper {
+        margin-top: 20px;
+        display: none; /* ซ่อนไว้ก่อนกดเล่น */
+    }
+    
+    .progress-bg {
+        width: 100%;
+        height: 10px;
+        background-color: #e0e0e0;
+        border-radius: 5px;
+        overflow: hidden;
+        margin-bottom: 10px;
+    }
+    
+    .progress-fill {
+        width: 0%;
+        height: 100%;
+        background-color: #2196F3;
+        transition: width 0.25s linear;
+    }
+
+    .time-display {
+        font-size: 14px;
+        color: #555;
+        display: flex;
+        justify-content: space-between;
+    }
+</style>
 </head>
 
 <body>
 
-<h2>ฟังบทความเสียง — Phase 2</h2>
+    <h2>การทดสอบการฟัง - ช่วงที่ 2 (Phase 2)</h2>
 
-<p class="notice">เสียงจะเล่นได้เพียงครั้งเดียว ไม่มีหยุด ไม่มีกรอ</p>
+    <div class="warning-box">
+        ⚠️ คำชี้แจงสำคัญ:<br>
+        ระบบจะเล่นไฟล์เสียงบรรยายเพียง 1 ครั้งเท่านั้น<br>
+        ท่านไม่สามารถกดหยุดพัก (Pause) หรือย้อนกลับ (Rewind) ได้ระหว่างการฟัง
+    </div>
 
-<audio id="audioPlayer" preload="auto">
-    <source id="audioSrc" src="">
-</audio>
+    <div class="player-container">
+        <button id="playBtn">▶ เริ่มฟังเสียงบรรยาย</button>
 
-<button id="playBtn">▶ เริ่มฟัง</button>
+        <div class="progress-wrapper" id="progressArea">
+            <div class="progress-bg">
+                <div id="progressBar" class="progress-fill"></div>
+            </div>
+            <div class="time-display">
+                <span id="statusText">กำลังเล่น...</span>
+                <span id="timeRemaining">เหลือเวลา: --:--</span>
+            </div>
+        </div>
+    </div>
 
-<p id="msg" class="error"></p>
+    <p id="msg" class="error"></p>
+
+    <audio id="audioPlayer" preload="auto">
+        <source id="audioSrc" src="">
+    </audio>
 
 <script>
 (function(){
@@ -29,42 +116,85 @@
     const audio = document.getElementById("audioPlayer");
     const src = document.getElementById("audioSrc");
     const playBtn = document.getElementById("playBtn");
-
+    const progressArea = document.getElementById("progressArea");
+    const progressBar = document.getElementById("progressBar");
+    const timeRemaining = document.getElementById("timeRemaining");
+    
     let startTime; 
 
+    // ตรวจสอบพารามิเตอร์
     if (!letter) {
-        document.getElementById("msg").textContent = "ไม่พบตัวแปร audio=A หรือ B";
+        document.getElementById("msg").textContent = "เกิดข้อผิดพลาด: ไม่พบข้อมูลไฟล์เสียง (Missing audio parameter)";
+        playBtn.disabled = true;
         return;
     }
 
+    // ตั้งค่าไฟล์เสียง
     const filePath = `audio/${letter}.mp3`;
     src.src = filePath;
     audio.load();
 
+    // ฟังก์ชันแปลงวินาทีเป็น MM:SS
+    function formatTime(seconds) {
+        if (isNaN(seconds)) return "--:--";
+        const m = Math.floor(seconds / 60);
+        const s = Math.floor(seconds % 60);
+        return `${m}:${s < 10 ? '0' : ''}${s}`;
+    }
+
+    // เมื่อกดปุ่มเริ่ม
     playBtn.onclick = () => {
         playBtn.disabled = true;
+        playBtn.textContent = "🔊 กำลังเล่นเสียงบรรยาย...";
+        playBtn.style.backgroundColor = "#888"; 
+        
+        progressArea.style.display = "block"; // แสดงแถบเวลา
         startTime = new Date(); 
         
         audio.play()
         .then(() => {
-            document.getElementById("msg").textContent = "กำลังเล่นเสียง...";
+            console.log("Audio playing...");
         })
         .catch(err => {
-            document.getElementById("msg").textContent =
-                "ไม่สามารถเล่นเสียงได้ กรุณาตรวจสอบไฟล์: " + filePath;
+            document.getElementById("msg").textContent = "ไม่สามารถเล่นไฟล์เสียงได้ กรุณาตรวจสอบไฟล์หรือรีเฟรชหน้าเว็บ";
+            console.error(err);
         });
     };
 
+    // อัปเดต Progress Bar และเวลา
+    audio.ontimeupdate = () => {
+        if (audio.duration) {
+            // คำนวณเปอร์เซ็นต์
+            const percent = (audio.currentTime / audio.duration) * 100;
+            progressBar.style.width = `${percent}%`;
+
+            // คำนวณเวลาที่เหลือ
+            const timeLeft = audio.duration - audio.currentTime;
+            timeRemaining.textContent = `เหลือเวลา: ${formatTime(timeLeft)}`;
+        }
+    };
+
+    // เมื่อเสียงจบ
     audio.onended = () => {
         const endTime = new Date();
         const timeSpent = Math.round((endTime - startTime) / 1000); 
 
-        // --- บันทึกเวลาที่ใช้ในการฟัง (ใช้ Key P2) ---
+        // แจ้งผู้ใช้
+        playBtn.textContent = "✅ การบรรยายจบแล้ว";
+        document.getElementById("statusText").textContent = "เสร็จสิ้น";
+        progressBar.style.width = "100%";
+        timeRemaining.textContent = "กำลังนำทางไปสู่แบบทดสอบ...";
+
+        // บันทึกเวลา (สำหรับ Phase 2 โดยเฉพาะ)
         const data = window.Experiment.loadExperimentData();
-        data.listen_time_P2 = timeSpent;
+        data.listen_time_P2 = timeSpent; // บันทึกลงตัวแปร P2
         window.Experiment.saveExperimentData(data);
 
-        window.location.href = `phase2_quiz.html?set=${set}&article=${letter}`;
+        // รอสักครู่แล้วเปลี่ยนหน้า
+        setTimeout(() => {
+             // ไปหน้า Quiz Phase 2
+             window.location.href = `phase2_quiz.html?set=${set}&article=${letter}`;
+        }, 1500);
     };
 
 })();

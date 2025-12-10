@@ -2,19 +2,90 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<title>แบบทดสอบ (Phase 1)</title>
+<title>แบบทดสอบวัดความเข้าใจ (ช่วงที่ 1)</title>
 <link rel="stylesheet" href="style.css">
 <script src="main.js"></script>
+<style>
+    /* CSS ปรับแต่งให้ดูเป็นทางการ */
+    body { 
+        font-family: "Sarabun", "Prompt", sans-serif;
+        text-align: center; 
+        padding: 40px 20px; 
+        line-height: 1.6; 
+        background-color: #f9f9f9;
+    }
+    h2 { margin-bottom: 20px; color: #2c3e50; }
+    
+    .instruction-box {
+        background-color: #fff;
+        border: 1px solid #e0e0e0;
+        border-left: 5px solid #2196F3;
+        padding: 20px;
+        margin: 0 auto 30px auto;
+        max-width: 700px;
+        text-align: left;
+        border-radius: 4px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    .instruction-box h4 { margin-top: 0; color: #444; }
+    .instruction-box ul { margin-bottom: 0; padding-left: 20px; }
+
+    /* ปรับแต่ง Quiz Container ให้ดูดีขึ้น */
+    #quiz-container {
+        max-width: 700px;
+        margin: 0 auto;
+        text-align: left;
+        background: white;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    button {
+        margin-top: 30px;
+        padding: 12px 30px;
+        font-size: 18px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    button:hover { background-color: #45a049; }
+    
+    .error { 
+        color: #d32f2f; 
+        font-weight: bold; 
+        margin-top: 15px; 
+        background: #ffebee;
+        padding: 10px;
+        border-radius: 4px;
+        display: none; /* ซ่อนไว้ก่อน */
+    }
+</style>
 </head>
 
 <body>
-<h2>แบบทดสอบความเข้าใจ (Phase 1)</h2>
 
-<div id="quiz-container"></div>
+<h2>แบบทดสอบวัดความเข้าใจเนื้อหา (ช่วงที่ 1)</h2>
+
+<div class="instruction-box">
+    <h4>คำชี้แจง:</h4>
+    <ul>
+        <li>แบบทดสอบนี้มีวัตถุประสงค์เพื่อวัดระดับความเข้าใจจากการรับสารเมื่อสักครู่</li>
+        <li>กรุณาเลือกคำตอบที่ถูกต้องที่สุดเพียงข้อเดียว</li>
+        <li>ท่าน<b>ไม่สามารถย้อนกลับ</b>ไปดูบทความหรือฟังเสียงซ้ำได้</li>
+        <li>จำเป็นต้อง<b>ตอบคำถามให้ครบทุกข้อ</b>จึงจะสามารถส่งคำตอบได้</li>
+    </ul>
+</div>
+
+<div id="quiz-container">
+    </div>
 
 <p id="err" class="error"></p>
 
-<button id="submitBtn">ส่งคำตอบ</button>
+<button id="submitBtn">ยืนยันคำตอบและดำเนินการต่อ</button>
 
 <script>
 (function(){
@@ -25,7 +96,7 @@
 
     // 2. ตรวจสอบข้อมูลก่อนรัน
     if (!set || !articleLetter) {
-        document.getElementById(containerId).innerHTML = "<p>เกิดข้อผิดพลาด: ไม่พบรหัสชุดทดสอบหรือบทความ</p>";
+        document.getElementById(containerId).innerHTML = "<p style='color:red; text-align:center;'>เกิดข้อผิดพลาด: ไม่พบรหัสชุดทดสอบหรือข้อมูลบทความ</p>";
         return;
     }
 
@@ -34,11 +105,17 @@
 
     // 4. เมื่อกดส่งคำตอบ
     document.getElementById("submitBtn").onclick = () => {
+        const errElem = document.getElementById("err");
+        errElem.style.display = "none";
+
         // 4.1 ตรวจสอบคำตอบและคิดคะแนน (เรียกฟังก์ชันจาก main.js)
         const result = window.Experiment.validateQuizAnswers(articleLetter, containerId);
 
         if (!result.ok) {
-            document.getElementById("err").textContent = "กรุณาตอบทุกข้อก่อนส่ง";
+            errElem.textContent = "⚠️ กรุณาตอบคำถามให้ครบทุกข้อก่อนยืนยัน";
+            errElem.style.display = "block";
+            // เลื่อนหน้าจอไปที่ข้อความแจ้งเตือน
+            errElem.scrollIntoView({ behavior: "smooth" });
             return; // หยุดถ้าตอบไม่ครบ
         }
 
@@ -65,18 +142,25 @@
         // บันทึกกลับลง LocalStorage
         window.Experiment.saveExperimentData(data);
 
-        // 4.3 นำทางไปยัง Phase 2 (ตรวจสอบเงื่อนไขช่วงที่ 2)
-        const nextCondition = conditionObj.second; // เช่น "listenB" หรือ "readA"
+        // เปลี่ยนข้อความปุ่มเพื่อแจ้งสถานะ
+        const btn = document.getElementById("submitBtn");
+        btn.textContent = "กำลังบันทึกและเปลี่ยนหน้า...";
+        btn.disabled = true;
 
-        if (nextCondition.startsWith("read")) {
-            // ถ้า Phase 2 เป็นการอ่าน
-            const letter = nextCondition.endsWith("A") ? "A" : "B";
-            window.location = `phase2_read_ready.html?set=${set}&article=${letter}`;
-        } else {
-            // ถ้า Phase 2 เป็นการฟัง
-            const letter = nextCondition.endsWith("A") ? "A" : "B";
-            window.location = `phase2_listen_ready.html?set=${set}&audio=${letter}`;
-        }
+        // 4.3 นำทางไปยัง Phase 2 (ตรวจสอบเงื่อนไขช่วงที่ 2)
+        setTimeout(() => {
+            const nextCondition = conditionObj.second; // เช่น "listenB" หรือ "readA"
+
+            if (nextCondition.startsWith("read")) {
+                // ถ้า Phase 2 เป็นการอ่าน
+                const letter = nextCondition.endsWith("A") ? "A" : "B";
+                window.location = `phase2_read_ready.html?set=${set}&article=${letter}`;
+            } else {
+                // ถ้า Phase 2 เป็นการฟัง
+                const letter = nextCondition.endsWith("A") ? "A" : "B";
+                window.location = `phase2_listen_ready.html?set=${set}&audio=${letter}`;
+            }
+        }, 500); // หน่วงเวลาเล็กน้อยให้ผู้ใช้รู้สึกว่าระบบทำงาน
     };
 })();
 </script>

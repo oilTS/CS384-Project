@@ -2,29 +2,175 @@
 <html lang="th">
 <head>
 <meta charset="utf-8" />
-<title>CS384 — ใส่รหัสชุดทดสอบ</title>
+<title>CS384 — การทดลองเปรียบเทียบการรับสาร</title>
 <link rel="stylesheet" href="style.css" />
 <script src="main.js" defer></script>
 <style>
-  /* เพิ่ม style เพื่อให้ดูดีขึ้น */
-  body { font-family: sans-serif; padding: 20px; text-align: center; }
-  h1 { color: #333; }
-  .error { color: red; margin-top: 10px; font-weight: bold; }
-  .form-row { margin-bottom: 15px; }
-  input, button { padding: 10px; font-size: 16px; border-radius: 5px; border: 1px solid #ccc; }
-  button { background-color: #4CAF50; color: white; border: none; cursor: pointer; margin-left: 10px; }
-  button:hover { background-color: #45a049; }
+  /* CSS สำหรับหน้า Landing Page งานวิจัย */
+  body { 
+    font-family: "Sarabun", "Prompt", sans-serif; 
+    background-color: #f4f4f9;
+    padding: 20px; 
+    color: #333;
+    line-height: 1.6;
+  }
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    text-align: left;
+  }
+  
+  /* ส่วนหัวเรื่อง (Header) */
+  header {
+    text-align: center;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+  }
+  h1 { 
+    color: #2c3e50; 
+    margin: 10px 0;
+    font-size: 1.6em;
+  }
+  .course-info {
+    color: #555;
+    font-size: 0.95em;
+    font-weight: normal;
+    margin-bottom: 5px;
+  }
+  .university {
+    color: #888;
+    font-size: 0.85em;
+    margin-top: 5px;
+  }
+
+  h3 { border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 30px; color: #444; }
+  
+  .info-box {
+    background-color: #e8f4fd;
+    border-left: 5px solid #2196F3;
+    padding: 15px;
+    margin: 20px 0;
+    font-size: 0.95em;
+  }
+  
+  .privacy-box {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 5px;
+    font-size: 0.9em;
+    color: #555;
+  }
+
+  .warning-text { color: #d32f2f; font-weight: bold; }
+
+  /* --- [ส่วนที่แก้ไข] จัดระเบียบ Input Section ใหม่ --- */
+  .login-section {
+    margin-top: 40px;
+    text-align: center;
+    padding: 30px 20px;
+    background: #fafafa;
+    border-radius: 8px;
+    border: 1px solid #eee;
+  }
+
+  /* จัดเรียง Input และ Button ในแนวตั้ง */
+  .form-row {
+    display: flex;
+    flex-direction: column; /* เรียงลงมาเป็นแนวตั้ง */
+    align-items: center;    /* จัดกึ่งกลาง */
+    gap: 15px;              /* ระยะห่างระหว่างช่องกรอกกับปุ่ม */
+    margin-top: 20px;
+  }
+
+  input { 
+    padding: 12px; 
+    font-size: 18px; 
+    border-radius: 5px; 
+    border: 1px solid #ccc; 
+    width: 200px;           /* ปรับความกว้างให้พอดีสวยงาม */
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  button { 
+    padding: 12px 30px; 
+    font-size: 18px; 
+    border-radius: 5px; 
+    border: none; 
+    cursor: pointer; 
+    background-color: #2196F3; 
+    color: white; 
+    transition: 0.3s;
+    width: 200px;           /* ปรับปุ่มให้กว้างเท่า Input */
+    margin-left: 0;         /* เอา margin เดิมออก */
+  }
+
+  button:hover { background-color: #1976D2; }
+  .error { color: #d32f2f; margin-top: 15px; font-weight: bold; display: none;}
 </style>
 </head>
 <body>
-  <h1>CS384 — เริ่มการทดลอง</h1>
 
-  <p>กรุณากรอกรหัสชุดทดสอบของคุณ (S1, S2, S3, S4)</p>
-  <div class="form-row">
-    <input id="codeInput" placeholder="เช่น S1" />
-    <button id="startBtn">เริ่ม</button>
+<div class="container">
+  
+  <header>
+    <div class="course-info">รายวิชา CS384 Human-Computer Interaction</div>
+    <div class="course-info">ภาคเรียนที่ 1 ปีการศึกษา 2568</div>
+    <div class="university">มหาวิทยาลัยธรรมศาสตร์</div>
+    
+    <h1>การศึกษาเปรียบเทียบประสิทธิผลของการรับสาร<br>ผ่านการอ่านและการฟัง</h1>
+  </header>
+
+  <h3>1. วัตถุประสงค์การวิจัย</h3>
+  <p>
+    แบบทดสอบนี้จัดทำขึ้นเพื่อศึกษาและเปรียบเทียบประสิทธิภาพด้าน 
+    <strong>"ความเข้าใจเนื้อหา" (Comprehension)</strong> และ <strong>"สุนทรียภาพ" (Aesthetics)</strong> 
+    ระหว่างการรับสารผ่านการอ่านบทความและการฟังเสียงบรรยาย โดยผลลัพธ์ที่ได้จะนำไปวิเคราะห์เพื่อพัฒนาการออกแบบส่วนติดต่อผู้ใช้ (User Interface) ให้เหมาะสมกับพฤติกรรมการเรียนรู้ของผู้ใช้ต่อไป
+  </p>
+
+  <h3>2. ขั้นตอนการทดสอบ</h3>
+  <p>การทดสอบจะใช้เวลาประมาณ 10-15 นาที ประกอบด้วย 3 ส่วนหลัก ดังนี้:</p>
+  <ul>
+    <li><strong>ส่วนที่ 1 (Phase 1):</strong> รับสาร (อ่านหรือฟัง) และทำแบบทดสอบวัดความเข้าใจ</li>
+    <li><strong>ส่วนที่ 2 (Phase 2):</strong> รับสารด้วยวิธีที่ต่างจากส่วนแรก และทำแบบทดสอบวัดความเข้าใจ</li>
+    <li><strong>ส่วนสุดท้าย:</strong> ตอบแบบสอบถามวัดความพึงพอใจและพฤติกรรม</li>
+  </ul>
+
+  <div class="info-box">
+    <strong>⚠️ ข้อควรปฏิบัติและคำแนะนำ:</strong>
+    <ul style="margin-top:5px; margin-bottom:0;">
+      <li>กรุณา <b>สวมใส่หูฟัง</b> เพื่อความชัดเจนในการฟังเสียงบรรยาย</li>
+      <li>ควรทำแบบทดสอบใน <b>สภาพแวดล้อมที่เงียบสงบ</b> ปราศจากสิ่งรบกวน</li>
+      <li><span class="warning-text">สำคัญ:</span> ในส่วนของการฟัง ไฟล์เสียงจะเล่นได้เพียง <b>1 ครั้งเท่านั้น</b> (ไม่สามารถหยุดพัก หรือย้อนกลับได้)</li>
+      <li>ห้ามกด Refresh หรือปุ่ม Back ของเบราว์เซอร์ระหว่างการทดสอบ</li>
+    </ul>
   </div>
-  <div id="codeError" class="error" style="display:none"></div>
+
+  <div class="privacy-box">
+    <strong>🔒 การคุ้มครองข้อมูลส่วนบุคคล (Data Privacy Statement):</strong><br>
+    ข้อมูลที่ได้จากการทดลองนี้จะถูกเก็บรวบรวมโดย <b>ไม่ระบุตัวตน (Anonymous)</b> 
+    และจะนำไปใช้เพื่อการวิเคราะห์ผลทางการศึกษาในรายวิชา CS384 Human-Computer Interaction เท่านั้น 
+    ไม่มีการเผยแพร่ข้อมูลสู่สาธารณะในรูปแบบที่ระบุถึงตัวบุคคลได้
+  </div>
+
+  <div class="login-section">
+    <p>กรุณากรอก <b>รหัสชุดทดสอบ (Set Code)</b> ที่ท่านได้รับ<br><small>(ตัวอย่าง: S1, S2, S3, S4)</small></p>
+    
+    <div class="form-row">
+      <input id="codeInput" placeholder="เช่น S1" maxlength="2" /> 
+      <button id="startBtn">เริ่มทำแบบทดสอบ</button>
+    </div>
+    
+    <div id="codeError" class="error"></div>
+  </div>
+
+</div>
 
 <script>
 document.getElementById("startBtn").addEventListener("click", ()=>{
@@ -32,40 +178,52 @@ document.getElementById("startBtn").addEventListener("click", ()=>{
   const err = document.getElementById("codeError");
   err.style.display = "none";
   
-  // 1. ตรวจสอบรหัสความถูกต้อง (ฟังก์ชันเดิม)
+  // 1. ตรวจสอบรหัสความถูกต้อง
   if (!["S1","S2","S3","S4"].includes(code)) {
-    err.textContent = "รหัสไม่ถูกต้อง — กรุณากรอก S1, S2, S3 หรือ S4";
+    err.textContent = "⚠ รหัสไม่ถูกต้อง — กรุณากรอก S1, S2, S3 หรือ S4 เท่านั้น";
     err.style.display = "block";
     return;
   }
 
-  // 2. ตรวจสอบว่าสคริปต์หลัก (main.js) โหลดแล้ว (ฟังก์ชันเดิม)
+  // 2. ตรวจสอบว่าสคริปต์หลัก (main.js) โหลดแล้ว
+  if (!window.Experiment || !window.Experiment.CONDITION) {
+    err.textContent = "ระบบกำลังโหลด กรุณารอสักครู่แล้วกดใหม่อีกครั้ง";
+    err.style.display = "block";
+    return;
+  }
+  
   const cond = window.Experiment.CONDITION[code];
   if (!cond) {
-    err.textContent = "สคริปต์ยังไม่โหลดหรือรหัสผิด";
+    err.textContent = "ไม่พบข้อมูลเงื่อนไขสำหรับรหัสนี้";
     err.style.display = "block";
     return;
   }
 
-  // 3. --- NEW: ล้างข้อมูลเก่าก่อนเริ่มการทดลองใหม่ ---
-  // การล้างข้อมูลเก่าใน localStorage เพื่อให้มั่นใจว่าข้อมูลที่เก็บใหม่จะไม่ปนกับข้อมูลเก่า
+  // 3. ล้างข้อมูลเก่าก่อนเริ่มการทดลองใหม่
   if (typeof window.Experiment.clearExperimentData === 'function') {
       window.Experiment.clearExperimentData();
   }
   
-  // 4. --- NEW: บันทึกรหัสชุดทดสอบ (set) ลงใน localStorage ---
+  // 4. บันทึกรหัสชุดทดสอบ (set) ลงใน localStorage
   const initialData = window.Experiment.loadExperimentData();
   initialData.set = code;
   window.Experiment.saveExperimentData(initialData);
 
-  // 5. นำทางไปยัง Phase 1 ที่เหมาะสม (ฟังก์ชันเดิม)
-  // cond.first indicates e.g. "readA" or "listenB"
+  // 5. นำทางไปยัง Phase 1 ที่เหมาะสม
   if (cond.first.startsWith("read")) {
-    window.location.href = `phase1_read_ready.html?set=${code}&article=${cond.first.slice(-1)}`; // ส่ง article letter ไปด้วย
+    window.location.href = `phase1_read_ready.html?set=${code}&article=${cond.first.slice(-1)}`;
   } else {
-    window.location.href = `phase1_listen_ready.html?set=${code}&audio=${cond.first.slice(-1)}`; // ส่ง audio letter ไปด้วย
+    window.location.href = `phase1_listen_ready.html?set=${code}&audio=${cond.first.slice(-1)}`;
+  }
+});
+
+// เพิ่มฟังก์ชันกด Enter เพื่อเริ่ม
+document.getElementById("codeInput").addEventListener("keypress", function(event) {
+  if (event.key === "Enter") {
+    document.getElementById("startBtn").click();
   }
 });
 </script>
+
 </body>
 </html>

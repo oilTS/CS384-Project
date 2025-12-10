@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<title>แบบสอบถามท้ายการทดลอง</title>
+<title>แบบสอบถามหลังการทดลอง</title>
 <link rel="stylesheet" href="style.css">
 <script src="main.js"></script>
 </head>
@@ -10,120 +10,136 @@
 <body>
 
 <h2>แบบสอบถามหลังเสร็จสิ้นการทดลอง</h2>
-
-<p class="notice">กรุณาตอบข้อ 1–4 ให้ครบ (เป็นช้อยส์ 1–5)</p>
+<p class="notice">คำชี้แจง: กรุณาตอบแบบสอบถามให้ครบถ้วนทุกข้อเพื่อเสร็จสิ้นกระบวนการทดลอง</p>
 
 <form id="surveyForm">
 
     <div class="question-block">
-        <p><b>1) สุนทรียภาพจากการอ่าน</b></p>
-        <label><input type="radio" name="q1" value="1"> 1</label><br>
-        <label><input type="radio" name="q1" value="2"> 2</label><br>
-        <label><input type="radio" name="q1" value="3"> 3</label><br>
-        <label><input type="radio" name="q1" value="4"> 4</label><br>
-        <label><input type="radio" name="q1" value="5"> 5</label>
+        <p><b>1. ท่านมีความพึงพอใจด้าน "สุนทรียภาพ" (Aesthetics) จากการรับสารด้วยวิธีการ <u>อ่าน</u> มากน้อยเพียงใด *</b></p>
+        <label><input type="radio" name="q1" value="1"> 1 (น้อยที่สุด) </label><br>
+        <label><input type="radio" name="q1" value="2"> 2 (น้อย) </label><br>
+        <label><input type="radio" name="q1" value="3"> 3 (ปานกลาง) </label><br>
+        <label><input type="radio" name="q1" value="4"> 4 (มาก) </label><br>
+        <label><input type="radio" name="q1" value="5"> 5 (มากที่สุด) </label>
     </div>
-
     <hr>
 
     <div class="question-block">
-        <p><b>2) สุนทรียภาพจากการฟัง</b></p>
-        <label><input type="radio" name="q2" value="1"> 1</label><br>
-        <label><input type="radio" name="q2" value="2"> 2</label><br>
-        <label><input type="radio" name="q2" value="3"> 3</label><br>
-        <label><input type="radio" name="q2" value="4"> 4</label><br>
-        <label><input type="radio" name="q2" value="5"> 5</label>
+        <p><b>2. ท่านมีความพึงพอใจด้าน "สุนทรียภาพ" (Aesthetics) จากการรับสารด้วยวิธีการ <u>ฟัง</u> มากน้อยเพียงใด *</b></p>
+        <label><input type="radio" name="q2" value="1"> 1 (น้อยที่สุด) </label><br>
+        <label><input type="radio" name="q2" value="2"> 2 (น้อย) </label><br>
+        <label><input type="radio" name="q2" value="3"> 3 (ปานกลาง) </label><br>
+        <label><input type="radio" name="q2" value="4"> 4 (มาก) </label><br>
+        <label><input type="radio" name="q2" value="5"> 5 (มากที่สุด) </label>
     </div>
-
     <hr>
 
     <div class="question-block">
-        <p><b>3) ความเข้าใจจากการอ่าน</b></p>
-        <label><input type="radio" name="q3" value="1"> 1</label><br>
-        <label><input type="radio" name="q3" value="2"> 2</label><br>
-        <label><input type="radio" name="q3" value="3"> 3</label><br>
-        <label><input type="radio" name="q3" value="4"> 4</label><br>
-        <label><input type="radio" name="q3" value="5"> 5</label>
+        <p><b>3. ท่านคิดว่าการรับสารด้วยวิธีการ <u>อ่าน</u> ส่งผลต่อ "ความเข้าใจเนื้อหา" มากน้อยเพียงใด *</b></p>
+        <label><input type="radio" name="q3" value="1"> 1 (น้อยที่สุด) </label><br>
+        <label><input type="radio" name="q3" value="2"> 2 (น้อย) </label><br>
+        <label><input type="radio" name="q3" value="3"> 3 (ปานกลาง) </label><br>
+        <label><input type="radio" name="q3" value="4"> 4 (มาก) </label><br>
+        <label><input type="radio" name="q3" value="5"> 5 (มากที่สุด) </label>
     </div>
-
     <hr>
 
     <div class="question-block">
-        <p><b>4) ความเข้าใจจากการฟัง</b></p>
-        <label><input type="radio" name="q4" value="1"> 1</label><br>
-        <label><input type="radio" name="q4" value="2"> 2</label><br>
-        <label><input type="radio" name="q4" value="3"> 3</label><br>
-        <label><input type="radio" name="q4" value="4"> 4</label><br>
-        <label><input type="radio" name="q4" value="5"> 5</label>
+        <p><b>4. ท่านคิดว่าการรับสารด้วยวิธีการ <u>ฟัง</u> ส่งผลต่อ "ความเข้าใจเนื้อหา" มากน้อยเพียงใด *</b></p>
+        <label><input type="radio" name="q4" value="1"> 1 (น้อยที่สุด) </label><br>
+        <label><input type="radio" name="q4" value="2"> 2 (น้อย) </label><br>
+        <label><input type="radio" name="q4" value="3"> 3 (ปานกลาง) </label><br>
+        <label><input type="radio" name="q4" value="4"> 4 (มาก) </label><br>
+        <label><input type="radio" name="q4" value="5"> 5 (มากที่สุด) </label>
     </div>
-
     <hr>
 
     <div class="question-block">
-        <p><b>5) ข้อเสนอแนะเพิ่มเติม (ไม่บังคับ)</b></p>
-        <textarea id="feedback" style="width:100%; height:120px;"></textarea>
+        <p><b>5. ท่านคิดว่าวิธีการรับสารรูปแบบใด ช่วยให้ท่าน "มีสมาธิ" จดจ่อกับเนื้อหาได้ดีกว่า *</b></p>
+        <label><input type="radio" name="q5" value="Read"> การอ่าน (Reading) </label><br>
+        <label><input type="radio" name="q5" value="Listen"> การฟัง (Listening) </label><br>
+        <label><input type="radio" name="q5" value="Equal"> ใกล้เคียงกัน (Equal) </label>
+    </div>
+    <hr>
+
+    <div class="question-block">
+        <p><b>6. โดยภาพรวม ท่าน "พึงพอใจ" ต่อวิธีการรับสารรูปแบบใดมากกว่า *</b></p>
+        <label><input type="radio" name="q6" value="Read"> การอ่าน (Reading) </label><br>
+        <label><input type="radio" name="q6" value="Listen"> การฟัง (Listening) </label>
+    </div>
+    <hr>
+
+    <div class="question-block">
+        <p><b>7. ในชีวิตประจำวัน ท่านมีพฤติกรรมการเสพสื่อ (ข่าวสาร/ความบันเทิง) ผ่านช่องทางใดเป็นหลัก *</b></p>
+        <label><input type="radio" name="q9" value="Read"> เน้นการอ่าน (หนังสือ/บทความออนไลน์/โซเชียลมีเดีย) </label><br>
+        <label><input type="radio" name="q9" value="Listen"> เน้นการฟัง (Podcast/Youtube/Audiobook) </label><br>
+        <label><input type="radio" name="q9" value="Equal"> ทั้งสองรูปแบบใกล้เคียงกัน </label>
+    </div>
+    <hr>
+
+    <div class="question-block">
+        <p><b>8. ข้อเสนอแนะเพิ่มเติม (ถ้ามี)</b></p>
+        <textarea id="feedback" style="width:100%; height:80px;" placeholder="พิมพ์ข้อเสนอแนะของท่านที่นี่..."></textarea>
     </div>
 
 </form>
 
 <p id="err" class="error"></p>
-
-<button id="submitBtn">ส่งแบบสอบถาม</button>
+<button id="submitBtn">บันทึกข้อมูลและจบการทดลอง</button>
 
 <script>
 document.getElementById("submitBtn").onclick = () => {
-
     let requiredOK = true;
-
-    ["q1","q2","q3","q4"].forEach(name => {
+    
+    // ตรวจสอบเฉพาะข้อที่มี (q1 ถึง q6 และ q9)
+    const questionsToCheck = ["q1", "q2", "q3", "q4", "q5", "q6", "q9"];
+    
+    questionsToCheck.forEach(name => {
         const v = document.querySelector(`input[name="${name}"]:checked`);
         if (!v) requiredOK = false;
     });
 
     if (!requiredOK) {
-        document.getElementById("err").textContent =
-            "กรุณาตอบข้อ 1–4 ให้ครบทุกข้อ";
+        document.getElementById("err").textContent = "กรุณาตอบคำถามให้ครบถ้วนทุกข้อ";
         return;
     }
 
-    // --- รวบรวมข้อมูลทั้งหมดและส่ง ---
+    // --- รวบรวมข้อมูล ---
     const set = window.Experiment.getParam("set");
     let finalData = window.Experiment.loadExperimentData();
     
-    // 1. ดึงข้อมูลจาก Survey
-    finalData.q1 = document.querySelector('input[name="q1"]:checked').value;
-    finalData.q2 = document.querySelector('input[name="q2"]:checked').value;
-    finalData.q3 = document.querySelector('input[name="q3"]:checked').value;
-    finalData.q4 = document.querySelector('input[name="q4"]:checked').value;
+    // ดึงค่าจาก Survey
+    questionsToCheck.forEach(name => {
+        finalData[name] = document.querySelector(`input[name="${name}"]:checked`).value;
+    });
     finalData.feedback = document.getElementById("feedback").value;
-
-    // 2. เพิ่ม Set เข้าไปใน Data ที่จะส่ง
-    finalData.set = set; 
-
-    // 3. จัดการ Field ที่ขาดหายไป (ถ้า Set S1 เป็น Read/Listen)
-    // ทำให้แน่ใจว่าส่งครบทุก Field ตาม Apps Script
     
-    // Field ที่อาจจะว่างถ้าไม่ได้ทดลอง (เช่น S1 ไม่ทำ Read P2)
+    // Set และ Null Check
+    finalData.set = set; 
+    
+    // จัดการค่า Null สำหรับ Phase ที่ไม่ได้ทำ
     finalData.read_time_P2 = finalData.read_time_P2 || null; 
     finalData.read_score_P2 = finalData.read_score_P2 || null;
     finalData.listen_time_P2 = finalData.listen_time_P2 || null;
     finalData.listen_score_P2 = finalData.listen_score_P2 || null;
     
-    // Field P1 (สำหรับ Set S3/S4 ที่เริ่มด้วย Listen)
     finalData.read_time = finalData.read_time || null;
     finalData.read_score = finalData.read_score || null;
     finalData.listen_time = finalData.listen_time || null;
     finalData.listen_score = finalData.listen_score || null;
 
-    // 4. ส่งข้อมูลไป Google Sheets
+    // ส่งข้อมูล
     window.Experiment.sendToSheet(finalData);
-
-    // 5. ล้างข้อมูล Local Storage เมื่อส่งเสร็จ
+    
+    // ล้างข้อมูล
     window.Experiment.clearExperimentData();
-    // -------------------------------------
 
     document.body.innerHTML = `
-        <h2 style="color:green;">ส่งข้อมูลเรียบร้อย ขอบคุณค่ะ</h2>
+        <div style="text-align:center; margin-top:50px;">
+            <h1 style="color:green;">บันทึกข้อมูลเรียบร้อย</h1>
+            <p>ขอขอบคุณสำหรับความร่วมมือในการทำวิจัยครั้งนี้</p>
+            <p>ท่านสามารถปิดหน้าต่างนี้ได้</p>
+        </div>
     `;
 };
 </script>

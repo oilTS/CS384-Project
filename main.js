@@ -64,41 +64,61 @@ async function loadArticle(letter) {
 }
 
 // ------------------------------
-// Question bank (5 MCQs per article)
+// Question bank (Updated for Alice & Happy Prince)
 // ------------------------------
 const QUESTIONS = {
     "A": [
         {
-            q: "ตัวอย่างคำถามบทความ A ข้อ 1",
-            choices: ["ตัวเลือกที่ 1","ตัวเลือกที่ 2","ตัวเลือกที่ 3","ตัวเลือกที่ 4","ตัวเลือกที่ 5"],
-            correct: 0
+            q: "ทำไมอลิซถึงตัดสินใจวิ่งตามกระต่ายขาวไป?",
+            choices: ["เพราะมันพูดได้", "เพราะมันสวมเสื้อกั๊กและมีนาฬิกาพก", "เพราะเธอยังเก็บดอกไม้ไม่เสร็จ", "เพราะพี่สาวของเธอสั่งให้ตามไป", "เพราะมันเป็นกระต่ายตัวใหญ่"],
+            correct: 1
         },
         {
-            q: "ตัวอย่างคำถามบทความ A ข้อ 2",
-            choices: ["ตัวเลือกที่ 1","ตัวเลือกที่ 2","ตัวเลือกที่ 3","ตัวเลือกที่ 4","ตัวเลือกที่ 5"],
-            correct: 0
+            q: "อลิซหยิบอะไรได้จากชั้นวางขณะที่กำลังตกลงไปในโพรง?",
+            choices: ["แผนที่", "หนังสือที่มีรูปภาพ", "กระปุกแยมส้ม", "กุญแจทองคำ", "นาฬิกาพก"],
+            correct: 2
         },
         {
-            q: "ตัวอย่างคำถามบทความ A ข้อ 3",
-            choices: ["ตัวเลือกที่ 1","ตัวเลือกที่ 2","ตัวเลือกที่ 3","ตัวเลือกที่ 4","ตัวเลือกที่ 5"],
-            correct: 0
+            q: "อลิซรู้สึกอย่างไรกับหนังสือที่พี่สาวของเธอกำลังอ่าน?",
+            choices: ["ตื่นเต้นเพราะมีเรื่องผจญภัย", "ชอบใจเพราะมีสาระ", "เบื่อเพราะไม่มีรูปภาพหรือบทสนทนา", "กลัวเพราะเป็นเรื่องผี", "สนใจเพราะเกี่ยวกับกระต่าย"],
+            correct: 2
+        },
+        {
+            q: "อลิซทำอย่างไรกับกระปุกที่หยิบมาได้?",
+            choices: ["กินจนหมดเกลี้ยง", "โยนทิ้งลงไปข้างล่าง", "วางไว้บนตู้เก็บของอีกใบขณะลอยผ่าน", "เก็บใส่กระเป๋าเสื้อ", "ทำหลุดมือแตก"],
+            correct: 2
+        },
+        {
+            q: "ลักษณะนิสัยใดของอลิซที่แสดงออกชัดเจนที่สุดในบทความนี้?",
+            choices: ["ความขี้ขลาด", "ความอยากรู้อยากเห็น", "ความเกียจคร้าน", "ความโกรธเกรี้ยว", "ความรอบคอบ"],
+            correct: 1
         }
     ],
     "B": [
         {
-            q: "ตัวอย่างคำถามบทความ B ข้อ 1",
-            choices: ["ตัวเลือกที่ 1","ตัวเลือกที่ 2","ตัวเลือกที่ 3","ตัวเลือกที่ 4","ตัวเลือกที่ 5"],
+            q: "รูปปั้นเจ้าชายผู้มีความสุขถูกประดับตกแต่งด้วยอะไรบ้าง?",
+            choices: ["แผ่นทองคำ, ไพลิน, และทับทิม", "เงินบริสุทธิ์และเพชร", "หินอ่อนแกะสลัก", "ทองแดงและมรกต", "ไม้สักทอง"],
             correct: 0
         },
         {
-            q: "ตัวอย่างคำถามบทความ B ข้อ 2",
-            choices: ["ตัวเลือกที่ 1","ตัวเลือกที่ 2","ตัวเลือกที่ 3","ตัวเลือกที่ 4","ตัวเลือกที่ 5"],
-            correct: 0
+            q: "ทำไมนกนางแอ่นถึงเลือกเกาะที่รูปปั้นนี้?",
+            choices: ["เพราะมันคิดว่าเป็นต้นไม้", "เพราะทำเลดีและอากาศถ่ายเทสะดวก", "เพราะมันต้องการขโมยทองคำ", "เพราะมันรู้จักกับเจ้าชายมาก่อน", "เพราะมันหลงทาง"],
+            correct: 1
         },
         {
-            q: "ตัวอย่างคำถามบทความ B ข้อ 3",
-            choices: ["ตัวเลือกที่ 1","ตัวเลือกที่ 2","ตัวเลือกที่ 3","ตัวเลือกที่ 4","ตัวเลือกที่ 5"],
-            correct: 0
+            q: "เหตุการณ์ใดที่ทำให้นกนางแอ่นรู้สึกแปลกใจก่อนจะเงยหน้าขึ้นมอง?",
+            choices: ["รูปปั้นขยับตัวได้", "มีเสียงฟ้าร้องดังสนั่น", "หยดน้ำตกลงมาทั้งที่ท้องฟ้าแจ่มใส", "ลมพายุพัดแรงกะทันหัน", "ไฟในเมืองดับลง"],
+            correct: 2
+        },
+        {
+            q: "ใครเป็นคนพูดเปรียบเทียบรูปปั้นว่าสวยเหมือนกังหันลมแต่ไร้ประโยชน์?",
+            choices: ["เด็กกำพร้า", "แม่ลูกอ่อน", "นกนางแอ่น", "สมาชิกสภาเมือง", "เจ้าชาย"],
+            correct: 3
+        },
+        {
+            q: "ความรู้สึกแรกของนกนางแอ่นเมื่อเห็นใบหน้าเจ้าชายร้องไห้คืออะไร?",
+            choices: ["ความหวาดกลัว", "ความสงสารจับใจ", "ความรำคาญ", "ความโกรธเคือง", "ความขบขัน"],
+            correct: 1
         }
     ]
 };
@@ -129,7 +149,7 @@ function renderQuiz(articleLetter, containerId) {
 }
 
 // ------------------------------
-// Validate quiz answers & Compute score (UPDATED)
+// Validate quiz answers & Compute score
 // ------------------------------
 function validateQuizAnswers(articleLetter, containerId) {
   const qset = QUESTIONS[articleLetter];
@@ -137,7 +157,7 @@ function validateQuizAnswers(articleLetter, containerId) {
   let allAnswered = true;
   const answers = [];
   
-  // NOTE: Assuming 3 questions based on QUESTIONS structure. Adjust loop for 5
+  // วนลูปตามจำนวนคำถามจริง (5 ข้อ)
   for (let i = 0; i < qset.length; i++) {
     const sel = document.querySelector(`#${containerId} input[name="q${i}"]:checked`);
     
@@ -157,16 +177,14 @@ function validateQuizAnswers(articleLetter, containerId) {
 // ------------------------------
 // Send data to Google Sheets
 // ------------------------------
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzQ8wIg0MK3cXxx3plRQGdevD9mBYhJibg7QYtsy58go4yY1CS2UlEoqMSLcDwBqhVb/exec"; // เปลี่ยนเป็น URL /exec จริงของคุณ
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzQ8wIg0MK3cXxx3plRQGdevD9mBYhJibg7QYtsy58go4yY1CS2UlEoqMSLcDwBqhVb/exec"; // URL ของคุณ
 
 function sendToSheet(data) {
-    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzQ8wIg0MK3cXxx3plRQGdevD9mBYhJibg7QYtsy58go4yY1CS2UlEoqMSLcDwBqhVb/exec"; // URL ของคุณ
-    
-    // *** [การแก้ไข] ลบ Headers property ออกไปทั้งหมด ***
+    // ใช้ mode: 'no-cors' เพื่อหลีกเลี่ยง CORS error และลบ Headers ออก
     fetch(GOOGLE_SCRIPT_URL, {
         method: "POST",
         mode: "no-cors", 
-        // ไม่ต้องมีบรรทัด headers: { "Content-Type": "application/json" },
+        // headers: { "Content-Type": "application/json" }, // ลบออกตามคำแนะนำ
         body: JSON.stringify(data)
     })
     .then(res => {
@@ -185,7 +203,7 @@ window.Experiment = {
   CONDITION,
   QUESTIONS,
   renderQuiz,
-  validateQuizAnswers, // Use this for scoring now
+  validateQuizAnswers,
   showMessage,
   sendToSheet,
   loadExperimentData, 

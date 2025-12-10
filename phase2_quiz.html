@@ -18,13 +18,23 @@
 
 <script>
 (function(){
+    // 1. ดึงพารามิเตอร์จาก URL
     const set = window.Experiment.getParam("set");
-    const articleLetter = window.Experiment.getParam("article");
+    const articleLetter = window.Experiment.getParam("article"); 
     const containerId = "quiz-container";
-    
+
+    // 2. ตรวจสอบข้อมูลก่อนรัน
+    if (!set || !articleLetter) {
+        document.getElementById(containerId).innerHTML = "<p>เกิดข้อผิดพลาด: ไม่พบรหัสชุดทดสอบหรือบทความ</p>";
+        return;
+    }
+
+    // 3. สร้างโจทย์ (เรียกฟังก์ชันจาก main.js)
     window.Experiment.renderQuiz(articleLetter, containerId); 
 
+    // 4. เมื่อกดส่งคำตอบ
     document.getElementById("submitBtn").onclick = () => {
+        // 4.1 ตรวจสอบคำตอบและคิดคะแนน
         const result = window.Experiment.validateQuizAnswers(articleLetter, containerId);
 
         if (!result.ok) {
@@ -32,22 +42,32 @@
             return;
         }
 
-        // --- บันทึกข้อมูลคะแนน Phase 2 ---
+        // 4.2 โหลดข้อมูลเดิมและบันทึกคะแนน Phase 2
         const data = window.Experiment.loadExperimentData();
-        const nextCondition = window.Experiment.CONDITION[set].second; // P2
-
-        if (nextCondition.startsWith("read")) {
-            data.read_score_P2 = result.score;
-            data.read_article_P2 = articleLetter; // บันทึกบทความที่อ่าน
-        } else {
-            data.listen_score_P2 = result.score;
-            data.listen_article_P2 = articleLetter; // บันทึกบทความที่ฟัง
+        
+        // ตรวจสอบเงื่อนไขช่วงที่ 2 (Phase 2) ของ Set นี้
+        const conditionObj = window.Experiment.CONDITION[set];
+        if (!conditionObj) {
+            alert("ไม่พบข้อมูลเงื่อนไขสำหรับ Set: " + set);
+            return;
         }
         
-        window.Experiment.saveExperimentData(data);
-        // ---------------------------------
+        const nextCondition = conditionObj.second; // ช่วงที่ 2
 
-        // จบ Phase 2 เสมอ -> ไปหน้า Survey
+        if (nextCondition.startsWith("read")) {
+            // ถ้า Phase 2 เป็นการอ่าน -> บันทึกในตัวแปร P2 Read
+            data.read_score_P2 = result.score;
+            data.read_article_P2 = articleLetter;
+        } else {
+            // ถ้า Phase 2 เป็นการฟัง -> บันทึกในตัวแปร P2 Listen
+            data.listen_score_P2 = result.score;
+            data.listen_article_P2 = articleLetter;
+        }
+        
+        // บันทึกกลับลง LocalStorage
+        window.Experiment.saveExperimentData(data);
+
+        // 4.3 จบ Phase 2 เสมอ -> ไปหน้า Survey (พร้อมส่งรหัส set ไปด้วย)
         window.location = `final_survey.html?set=${set}`;
     };
 })();

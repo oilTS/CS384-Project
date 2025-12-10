@@ -55,8 +55,10 @@ const CONDITION = {
 // ------------------------------
 async function loadArticle(letter) {
   try {
-    const res = await fetch(`/articles/${letter}.html`);
-    if (!res.ok) return `<p>ไม่พบบทความ ${letter}</p>`;
+    // *** แก้ไข: ลบ / ด้านหน้าออก เพื่อให้หาโฟลเดอร์ articles เจอใน GitHub Pages ***
+    const res = await fetch(`articles/${letter}.html`); 
+    
+    if (!res.ok) return `<p>ไม่พบบทความ ${letter} (ตรวจสอบโฟลเดอร์ articles)</p>`;
     return await res.text();
   } catch (e) {
     return `<p>ไม่สามารถโหลดบทความได้</p>`;

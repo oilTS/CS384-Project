@@ -70,7 +70,15 @@
     <hr>
 
     <div class="question-block">
-        <p><b>7. ในชีวิตประจำวัน ท่านมีพฤติกรรมการเสพสื่อ (ข่าวสาร/ความบันเทิง) ผ่านช่องทางใดเป็นหลัก *</b></p>
+        <p><b>7. ท่านใช้อุปกรณ์ชนิดใดในการทำแบบทดสอบนี้ *</b></p>
+        <label><input type="radio" name="q7" value="Computer"> คอมพิวเตอร์ตั้งโต๊ะ / โน้ตบุ๊ก (Desktop/Laptop) </label><br>
+        <label><input type="radio" name="q7" value="Tablet"> แท็บเล็ต (Tablet / iPad) </label><br>
+        <label><input type="radio" name="q7" value="Mobile"> โทรศัพท์มือถือ (Smartphone) </label>
+    </div>
+    <hr>
+
+    <div class="question-block">
+        <p><b>8. ในชีวิตประจำวัน ท่านมีพฤติกรรมการเสพสื่อ (ข่าวสาร/ความบันเทิง) ผ่านช่องทางใดเป็นหลัก *</b></p>
         <label><input type="radio" name="q9" value="Read"> เน้นการอ่าน (หนังสือ/บทความออนไลน์/โซเชียลมีเดีย) </label><br>
         <label><input type="radio" name="q9" value="Listen"> เน้นการฟัง (Podcast/Youtube/Audiobook) </label><br>
         <label><input type="radio" name="q9" value="Equal"> ทั้งสองรูปแบบใกล้เคียงกัน </label>
@@ -78,7 +86,7 @@
     <hr>
 
     <div class="question-block">
-        <p><b>8. ข้อเสนอแนะเพิ่มเติม (ถ้ามี)</b></p>
+        <p><b>9. ข้อเสนอแนะเพิ่มเติม (ถ้ามี)</b></p>
         <textarea id="feedback" style="width:100%; height:80px;" placeholder="พิมพ์ข้อเสนอแนะของท่านที่นี่..."></textarea>
     </div>
 
@@ -91,8 +99,8 @@
 document.getElementById("submitBtn").onclick = () => {
     let requiredOK = true;
     
-    // ตรวจสอบเฉพาะข้อที่มี (q1 ถึง q6 และ q9)
-    const questionsToCheck = ["q1", "q2", "q3", "q4", "q5", "q6", "q9"];
+    // ตรวจสอบข้อที่มี (q1-q6, q7, q9)
+    const questionsToCheck = ["q1", "q2", "q3", "q4", "q5", "q6", "q7", "q9"];
     
     questionsToCheck.forEach(name => {
         const v = document.querySelector(`input[name="${name}"]:checked`);
@@ -117,7 +125,6 @@ document.getElementById("submitBtn").onclick = () => {
     // Set และ Null Check
     finalData.set = set; 
     
-    // จัดการค่า Null สำหรับ Phase ที่ไม่ได้ทำ
     finalData.read_time_P2 = finalData.read_time_P2 || null; 
     finalData.read_score_P2 = finalData.read_score_P2 || null;
     finalData.listen_time_P2 = finalData.listen_time_P2 || null;

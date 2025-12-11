@@ -16,6 +16,16 @@
     --warning-text: #856404;
 }
 
+/* กำหนดขนาดพื้นฐาน */
+html {
+    font-size: 16px; 
+    box-sizing: border-box;
+}
+
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
 body {
     font-family: 'Sarabun', 'Prompt', sans-serif;
     background-color: var(--bg-color);
@@ -40,14 +50,13 @@ body {
     padding: 40px;
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-    box-sizing: border-box;
 }
 
 /* ปรับแต่งส่วนบทความให้อ่านง่ายเป็นพิเศษ */
 .article-container {
-    font-size: 1.15rem; /* ตัวหนังสือบทความใหญ่ขึ้น */
-    line-height: 1.8;   /* ระยะบรรทัดห่างขึ้น */
-    color: #222;        /* สีเข้มขึ้นให้อ่านชัด */
+    font-size: 1.15rem; 
+    line-height: 1.8;   
+    color: #222;        
 }
 
 h1, h2, h3 { color: #2c3e50; margin-top: 0; line-height: 1.4; }
@@ -217,7 +226,7 @@ button#goRead:hover { background-color: var(--primary-blue-dark); }
     font-size: 1.2rem;
     text-align: center;
     box-sizing: border-box;
-    left: 0; /* ยึดซ้าย */
+    left: 0; 
 }
 
 .player-container {
@@ -242,26 +251,36 @@ button#goRead:hover { background-color: var(--primary-blue-dark); }
 }
 
 /* =========================================
-   7. RESPONSIVE DESIGN (แก้ปัญหาอ่านยาก)
+   7. RESPONSIVE DESIGN (BIG MODE)
    ========================================= */
 
 @media (max-width: 768px) {
-    body { padding: 10px; background-color: #fff; /* มือถือใช้พื้นขาวไปเลยดูสะอาดกว่า */ }
-    
-    .container, .article-container, #quiz-container, form {
-        padding: 20px 15px; /* ลดขอบข้างลง เนื้อหาจะได้กว้างขึ้น */
-        border-radius: 0;   /* เอาขอบมนออกให้ดูเต็มจอ */
-        box-shadow: none;
+    /* [สำคัญมาก] ขยายสเกลฟอนต์รากเป็น 18px 
+       จะทำให้ทุกหน่วย rem ขยายใหญ่ขึ้นโดยอัตโนมัติ */
+    html {
+        font-size: 18px; 
     }
 
-    h1 { font-size: 1.6rem; }
+    body { 
+        padding: 0; 
+        background-color: #fff; /* ใช้พื้นขาวลดความลายตา */
+    }
+    
+    .container, .article-container, #quiz-container, form {
+        padding: 25px 15px; /* ลดขอบข้างลง เนื้อหาจะได้กว้างขึ้น */
+        border-radius: 0;   /* เอาขอบมนออกให้ดูเต็มจอ */
+        box-shadow: none;
+        margin: 0;
+    }
+
+    h1 { font-size: 1.6rem; margin-top: 10px; }
     h2 { font-size: 1.4rem; }
     
-    /* ขยายขนาดตัวอักษรให้อ่านง่ายขึ้น */
+    /* ขยายขนาดตัวอักษรเนื้อหาให้อ่านง่ายขึ้น */
     p, li { 
-        font-size: 1.1rem; /* ประมาณ 17-18px */
+        font-size: 1.1rem; /* ผลลัพธ์จริงจะใหญ่กว่า 18px */
         line-height: 1.7; 
-        text-align: left;  /* จัดชิดซ้ายอ่านง่ายกว่า justify บนมือถือ */
+        text-align: left; 
     }
 
     /* กล่องคำเตือน */
@@ -275,27 +294,25 @@ button#goRead:hover { background-color: var(--primary-blue-dark); }
     /* Timer Bar */
     .timer-bar {
         font-size: 1.1rem;
-        padding: 10px;
+        padding: 12px;
         top: 0;
-        width: 100vw; /* เต็มความกว้างจอ */
-        margin-left: -10px; /* ชดเชย body padding */
-        margin-right: -10px;
+        margin-bottom: 0;
     }
 
     /* ปุ่มกด */
     button {
         width: 100%;
         max-width: 100%;
-        padding: 18px; /* เพิ่มพื้นที่กด */
-        font-size: 1.1rem;
-        border-radius: 12px; /* ปุ่มเหลี่ยมมนกดง่ายกว่า */
-        margin-bottom: 20px; /* เว้นระยะด้านล่างกันนิ้วไปโดนอย่างอื่น */
+        padding: 20px; /* เพิ่มพื้นที่กด */
+        font-size: 1.2rem;
+        border-radius: 12px;
+        margin-bottom: 20px;
     }
 
     /* ช่องกรอกข้อมูล */
     input[type="text"] {
         width: 100%;
-        font-size: 1.2rem; /* ตัวใหญ่ๆ พิมพ์ง่าย */
+        font-size: 1.3rem; 
         padding: 15px;
     }
 }

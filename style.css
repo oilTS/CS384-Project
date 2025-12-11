@@ -16,7 +16,6 @@
     --warning-text: #856404;
 }
 
-/* กำหนดขนาดพื้นฐาน */
 html {
     font-size: 16px; 
     box-sizing: border-box;
@@ -52,22 +51,32 @@ body {
     box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 }
 
-/* ปรับแต่งส่วนบทความให้อ่านง่ายเป็นพิเศษ */
+/* [ไม้ตาย 1] บังคับให้ทุกอย่างใน Quiz ชิดซ้ายเสมอ */
+#quiz-container {
+    text-align: left !important; 
+}
+#quiz-container * {
+    text-align: left !important;
+}
+
+/* ปรับแต่งส่วนบทความ */
 .article-container {
     font-size: 1.15rem; 
     line-height: 1.8;   
     color: #222;        
 }
 
-h1, h2, h3 { color: #2c3e50; margin-top: 0; line-height: 1.4; }
-h1 { font-size: 1.8rem; text-align: center; }
-h2 { font-size: 1.5rem; text-align: center; margin-bottom: 30px; }
+h1, h2, h3 { color: #2c3e50; margin-top: 0; line-height: 1.4; text-align: center; }
+/* ยกเว้น h3 ใน Quiz ให้ชิดซ้ายตามคำสั่งข้างบน */
+
+h1 { font-size: 1.8rem; }
+h2 { font-size: 1.5rem; margin-bottom: 30px; }
 h3 { font-size: 1.2rem; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 30px; }
 
 p, li { margin-bottom: 15px; }
 
 /* =========================================
-   3. BOXES (Instruction / Warning)
+   3. BOXES
    ========================================= */
 .instruction-box, .info-box {
     background-color: #e3f2fd;
@@ -85,7 +94,7 @@ p, li { margin-bottom: 15px; }
     padding: 15px;
     border-radius: 6px;
     margin: 20px auto;
-    text-align: center;
+    text-align: center !important; /* กล่องเตือนให้กลางไว้ */
     font-weight: 500;
 }
 
@@ -149,34 +158,35 @@ textarea {
     border-bottom: 1px solid #f0f0f0;
 }
 
-/* เพิ่มพื้นที่สัมผัสให้กดง่ายบนมือถือ */
 label {
     display: flex;
-    align-items: flex-start; /* จัดให้ชิดบน */
+    align-items: flex-start;
+    justify-content: flex-start; /* บังคับ Flex ชิดซ้าย */
     margin-bottom: 15px;
     cursor: pointer;
-    font-size: 1.1rem; /* ตัวหนังสือตัวเลือกใหญ่ขึ้น */
+    font-size: 1.1rem;
     padding: 10px;
     background-color: #fcfcfc;
     border-radius: 8px;
     transition: background-color 0.2s;
+    width: 100%; /* เต็มความกว้าง */
 }
 
 label:hover { background-color: #f0f0f0; }
 
 input[type="radio"] {
-    transform: scale(1.5); /* ปุ่มกดใหญ่ขึ้น */
+    transform: scale(1.5);
     margin-right: 15px;
-    margin-top: 5px; /* จัดกึ่งกลางกับบรรทัดแรก */
+    margin-top: 5px;
     cursor: pointer;
-    flex-shrink: 0; /* ไม่ให้ปุ่มโดนบีบ */
+    flex-shrink: 0;
 }
 
 /* =========================================
    5. BUTTONS
    ========================================= */
 button {
-    padding: 16px 30px; /* ปุ่มใหญ่ขึ้น */
+    padding: 16px 30px;
     font-size: 18px;
     font-weight: 600;
     font-family: 'Prompt', sans-serif;
@@ -189,8 +199,8 @@ button {
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     margin-top: 20px;
     line-height: 1.4;
-    width: 100%;         /* บนมือถือให้ปุ่มเต็มจอ */
-    max-width: 300px;    /* แต่ไม่เกิน 300px บนจอใหญ่ */
+    width: 100%;
+    max-width: 300px;
 }
 
 button:hover {
@@ -251,68 +261,70 @@ button#goRead:hover { background-color: var(--primary-blue-dark); }
 }
 
 /* =========================================
-   7. RESPONSIVE DESIGN (BIG MODE)
+   7. RESPONSIVE DESIGN (SUPER BIG MODE)
    ========================================= */
 
 @media (max-width: 768px) {
-    /* [สำคัญมาก] ขยายสเกลฟอนต์รากเป็น 18px 
-       จะทำให้ทุกหน่วย rem ขยายใหญ่ขึ้นโดยอัตโนมัติ */
+    /* [ไม้ตาย 2] ขยายสเกลฟอนต์รากเป็น 24px (ใหญ่สะใจ) */
     html {
-        font-size: 18px; 
+        font-size: 24px; 
     }
 
     body { 
         padding: 0; 
-        background-color: #fff; /* ใช้พื้นขาวลดความลายตา */
+        background-color: #fff;
     }
     
     .container, .article-container, #quiz-container, form {
-        padding: 25px 15px; /* ลดขอบข้างลง เนื้อหาจะได้กว้างขึ้น */
-        border-radius: 0;   /* เอาขอบมนออกให้ดูเต็มจอ */
+        padding: 25px 15px;
+        border-radius: 0;
         box-shadow: none;
         margin: 0;
     }
 
-    h1 { font-size: 1.6rem; margin-top: 10px; }
-    h2 { font-size: 1.4rem; }
+    /* บังคับซ้ายแบบสุดๆ */
+    p, li, .instruction-box, .warning-box, label, #quiz-container, #quiz-container * { 
+        text-align: left !important; 
+        line-height: 1.6;
+    }
     
-    /* ขยายขนาดตัวอักษรเนื้อหาให้อ่านง่ายขึ้น */
+    /* กล่องเตือนให้กลางเฉพาะกล่อง แต่ข้อความชิดซ้ายได้ถ้าต้องการ */
+    .warning-box { text-align: center !important; }
+
+    h1 { font-size: 1.5rem; margin-top: 10px; }
+    h2 { font-size: 1.3rem; }
+    
     p, li { 
-        font-size: 1.1rem; /* ผลลัพธ์จริงจะใหญ่กว่า 18px */
-        line-height: 1.7; 
-        text-align: left; 
+        font-size: 1rem; /* อ้างอิงจากฐาน 24px = ใหญ่มาก */
     }
 
     /* กล่องคำเตือน */
     .warning-box, .notice, .instruction-box {
-        font-size: 1rem;
+        font-size: 0.9rem;
         padding: 15px;
         margin: 15px 0;
         border-radius: 8px;
     }
     
-    /* Timer Bar */
     .timer-bar {
-        font-size: 1.1rem;
-        padding: 12px;
+        font-size: 1rem;
+        padding: 10px;
         top: 0;
         margin-bottom: 0;
     }
 
-    /* ปุ่มกด */
     button {
         width: 100%;
         max-width: 100%;
-        padding: 20px; /* เพิ่มพื้นที่กด */
-        font-size: 1.2rem;
+        padding: 15px;
+        font-size: 1.1rem;
         border-radius: 12px;
-        margin-bottom: 20px;
+        margin-bottom: 30px;
     }
 
-    /* ช่องกรอกข้อมูล */
     input[type="text"] {
         width: 100%;
-        font-size: 1.3rem; 
+        font-size: 1.2rem; 
         padding: 15px;
     }
 }

@@ -263,9 +263,9 @@ button#goRead:hover { background-color: var(--primary-blue-dark); }
    7. RESPONSIVE DESIGN (MOBILE)
    ========================================= */
 @media (max-width: 768px) {
-    /* 1. ขนาดฟอนต์พื้นฐาน 18px (UI ทั่วไป) */
+    /* 1. ขนาดฟอนต์พื้นฐาน (อ่านสบาย) */
     html {
-        font-size: 18px; 
+        font-size: 16px;
     }
 
     body { 
@@ -274,39 +274,47 @@ button#goRead:hover { background-color: var(--primary-blue-dark); }
     }
     
     .container, .article-container, #quiz-container, form {
-        padding: 25px 15px;
+        padding: 20px 15px;
         border-radius: 0;
         box-shadow: none;
         margin: 0;
     }
 
-    /* 2. [แก้ไขเฉพาะจุด] เนื้อหาบทความให้อ่าน ตัวใหญ่สะใจ (ประมาณ 24px) */
+    /* 2. เนื้อหาบทความ (ขนาดกำลังดี ไม่ใหญ่เกิน) */
     .article-container {
-        font-size: 1.5rem !important; /* เพิ่มจาก 1.35 เป็น 1.5 */
-        line-height: 1.9 !important;  /* เพิ่มระยะบรรทัด */
+        font-size: 1.2rem !important;   /* ~19-20px */
+        line-height: 1.8 !important;
         color: #000;
     }
+
     .article-container p {
-        margin-bottom: 25px; /* เพิ่มระยะห่างย่อหน้า */
+        margin-bottom: 20px;
     }
 
-    /* 3. บังคับชิดซ้ายเฉพาะ Quiz */
+    /* 3. Quiz ชิดซ้าย */
     #quiz-container, #quiz-container * { 
         text-align: left !important; 
         line-height: 1.6;
     }
     
-    /* ส่วนอื่นๆ เช่น คำเตือน ให้คงรูปแบบเดิม */
     p, li, .instruction-box, label { 
         text-align: left; 
     }
     
-    .warning-box { text-align: center; } 
+    .warning-box { 
+        text-align: center; 
+    } 
 
-    h1 { font-size: 1.5rem; margin-top: 10px; }
-    h2 { font-size: 1.3rem; }
+    h1 { 
+        font-size: 1.5rem; 
+        margin-top: 10px; 
+    }
+
+    h2 { 
+        font-size: 1.3rem; 
+    }
     
-    /* UI อื่นๆ ใช้ขนาดปกติ */
+    /* UI อื่นๆ */
     .instruction-box, .info-box, .notice, li {
         font-size: 1rem; 
     }
@@ -327,15 +335,15 @@ button#goRead:hover { background-color: var(--primary-blue-dark); }
     button {
         width: 100%;
         max-width: 100%;
-        padding: 15px;
-        font-size: 1.1rem;
+        padding: 14px;
+        font-size: 1.05rem;
         border-radius: 12px;
-        margin-bottom: 30px;
+        margin-bottom: 25px;
     }
 
     input[type="text"] {
         width: 100%;
-        font-size: 1.2rem; 
-        padding: 15px;
+        font-size: 1.1rem; 
+        padding: 14px;
     }
 }

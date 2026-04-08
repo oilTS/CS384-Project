@@ -27,7 +27,7 @@ To facilitate the study, I developed a custom research tool designed to minimize
 
 ## About the Author
 **Thanlada Sampanpaisansuk** 
-* **Education:** 3rd-year Computer Science student at Thammasat University (GPA: 3.32).
+* **Education:** 3rd-year Computer Science student at Thammasat University.
 * **Scholarship:** AEON Scholarship Recipient (2023–Present).
 * **Interests:** UX/UI Design, UX Research, and Business Analysis.
 * **Availability:** Seeking Cooperative Education (Internship) from **June 2, 2026 – December 1, 2026**.

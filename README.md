@@ -1,1 +1,37 @@
-﻿Here is a professional English README.md for your CS384 project, designed to showcase your hybrid skills in Computer Science and UX Research to recruiters on GitHub.CS384: Reading vs. Listening — A Cognitive Load Study in HCIAcademic Project | UX Researcher & Tool Developer 📌 Project OverviewThis project was conducted as part of the Human-Computer Interaction (HCI) curriculum at Thammasat University. The study investigates the comparative impact of information delivery methods—specifically reading vs. listening—on user comprehension and cognitive load.The goal was to provide data-driven design recommendations for creating more effective multi-modal user experiences.🧪 UX Research MethodologyI utilized a systematic research approach to ensure data accuracy and user-centric insights:Experimental Study: Conducted a controlled experiment to compare two distinct user groups.Quantitative Analysis: Measured comprehension scores and performance metrics.Qualitative Insights: Analyzed user feedback regarding perceived mental effort and experience.Cognitive Load Assessment: Evaluated the mental strain associated with different sensory inputs.🛠 Technical ImplementationTo facilitate the research, I developed a custom web-based research tool:Frontend: Built with HTML, CSS, and JavaScript for a clean, distraction-free testing environment.Data Handling: Used Python for processing and analyzing experimental results.Design & Wireframing: Prototypes were created in Figma to ensure high usability of the research tool itself.🚀 Key Features of the ToolMulti-modal Delivery: Seamless switching between text-based and audio-based content delivery.Automated Data Logging: Real-time tracking of time-on-task and response accuracy.Minimalist UI: Designed specifically to reduce external noise and focus entirely on the core experimental variables.📈 Results & RecommendationsBased on the findings, I authored a set of UX design recommendations aimed at optimizing multi-modal interfaces to balance technical feasibility with user cognitive limits.Contact & PortfolioDeveloper: Thanlada Sampanpaisansuk Full Portfolio: bit.ly/thanlada-portfolio Education: B.Sc. in Computer Science and Information Technology, Thammasat University
+# CS384: Reading vs. Listening — A Cognitive Load Study in HCI 
+### **Academic Project | [cite_start]UX Researcher & Tool Developer** 
+
+## 📌 Project Overview
+This project was conducted as part of the **Human-Computer Interaction (HCI)** curriculum at **Thammasat University**. The research focuses on comparing the impact of information delivery modalities—**reading vs. listening**—on user **comprehension** and **cognitive load**.
+
+The objective was to provide data-driven **design recommendations** for optimizing multi-modal user experiences.
+
+## UX Research Methodology
+* **Experimental Study:** Conducted a controlled experiment to compare comprehension and cognitive load between two user groups.
+* **Quantitative Analysis:** Analyzed performance metrics to identify patterns in information retention.
+* **Qualitative Insights:** Evaluated user feedback regarding perceived mental effort during the tasks.
+* **Design Recommendations:** Synthesized findings into actionable UX guidelines for multi-modal interfaces.
+
+## Technical Implementation
+To facilitate the study, I developed a custom research tool designed to minimize external noise and ensure data integrity:
+* **Web-based Research Tool:** Built using **HTML, CSS, and JavaScript**.
+* **Data Handling:** Utilized **Python** for processing experimental data.
+* **Design & Wireframing:** Prototypes and interface elements were designed in **Figma**.
+
+## Key Features
+* **Multi-modal Content Delivery:** Supports seamless switching between text and audio formats.
+* **Automated Data Logging:** Built-in tracking for time-on-task and response accuracy.
+* **Distraction-Free UI:** A minimalist interface optimized for a focused research environment.
+
+---
+
+## About the Author
+**Thanlada Sampanpaisansuk** 
+* **Education:** 3rd-year Computer Science student at Thammasat University (GPA: 3.32).
+* **Scholarship:** AEON Scholarship Recipient (2023–Present).
+* **Interests:** UX/UI Design, UX Research, and Business Analysis.
+* **Availability:** Seeking Cooperative Education (Internship) from **June 2, 2026 – December 1, 2026**.
+
+## 🔗 Contact & Portfolio
+* **Portfolio:** [[bit.ly/thanlada-portfolio](https://bit.ly/thanlada-sam-portfolio)](https://www.notion.so/Thanlada-s-Design-Analysis-Portfolio-2efaf8a94da280b49d51c65232fd291a?source=copy_link) [cite: 3, 49]
+* **Email:** thanlada.sam@dome.tu.ac.th

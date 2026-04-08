@@ -33,5 +33,5 @@ To facilitate the study, I developed a custom research tool designed to minimize
 * **Availability:** Seeking Cooperative Education (Internship) from **June 2, 2026 – December 1, 2026**.
 
 ## 🔗 Contact & Portfolio
-* **Portfolio:** [[bit.ly/thanlada-portfolio](https://bit.ly/thanlada-sam-portfolio)](https://www.notion.so/Thanlada-s-Design-Analysis-Portfolio-2efaf8a94da280b49d51c65232fd291a?source=copy_link) [cite: 3, 49]
+* **Portfolio:** (https://www.notion.so/Thanlada-s-Design-Analysis-Portfolio-2efaf8a94da280b49d51c65232fd291a?source=copy_link) 
 * **Email:** thanlada.sam@dome.tu.ac.th
